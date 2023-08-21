@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 
+//Lists of pizza dishes
 const pizzaData = [
   {
     name: "Focaccia",
@@ -47,6 +48,7 @@ const pizzaData = [
   },
 ];
 
+//Main component
 function App() {
   return (
     <div className="container">
@@ -57,6 +59,7 @@ function App() {
   );
 }
 
+//Header of menu
 function Header() {
   return (
     <header className="header">
@@ -73,7 +76,9 @@ function Menu() {
     <main className="menu">
       <h2>Our menu</h2>
 
+      {/* If you have pizza in data, you can see that list , if not have any pizza on that list you able to see paragraph */}
       {numPizzas > 0 ? (
+        //React Fragment
         <>
           <p>
             Authentic Italian cuisine. 6 creative dishes to choose from. All
@@ -95,6 +100,7 @@ function Menu() {
 
 function Pizza({ pizzaObj }) {
   const soldOut = pizzaObj.soldOut;
+  //If one item of pizza sold out, that color is changed and that prices is changed and replaced with text "SOLD OUT"
   return (
     <li className={`pizza ${soldOut ? "sold-out" : ""}`}>
       <img src={pizzaObj.photoName} alt={pizzaObj.name} />
@@ -113,6 +119,7 @@ function Footer() {
   const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
 
+  //OPEN restuarant betwwen 12 untill 22
   return (
     <footer className="footer">
       {isOpen ? (
@@ -126,6 +133,7 @@ function Footer() {
   );
 }
 
+// If you want to see order button, you just go between 12 and 22 hour
 function Order({ closeHour, openHour }) {
   return (
     <div className="order">
