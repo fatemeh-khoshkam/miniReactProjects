@@ -1,0 +1,21 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  font-weight: bold;
+  width: 400px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  padding: 25px 100px;
+  margin: 75px auto;
+  box-shadow: rgb(0 0 0 / 10%) 0px 4px 9px 2px;
+}
+button {
+  padding: 0.5rem 1.5rem;
+  margin: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: rgb(121, 80, 242);
+  color: rgb(255, 255, 255);
+  border: 0px;
+  border-radius: 5px;
+}
