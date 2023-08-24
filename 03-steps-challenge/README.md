@@ -6,6 +6,9 @@ How much we press the step button, the counter button moves forward or back,
 And we have a date and this date syncs with counter button,
 It moves forward or back from today date.
 
+![image](https://github.com/fatemeh-khoshkam/miniReactProjects/assets/30217552/d242d62b-fd7d-4f30-bcfa-8e0a9f1470c4)
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
