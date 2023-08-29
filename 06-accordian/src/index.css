@@ -31,6 +31,7 @@ body {
   column-gap: 24px;
   row-gap: 32px;
   align-items: center;
+  transition: all 0.3s;
 }
 
 .number {
@@ -67,6 +68,6 @@ body {
 }
 
 .open .number,
-.open .text {
+.open .title {
   color: #087f5b;
 }
