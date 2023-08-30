@@ -33,9 +33,7 @@ export default function App() {
             <div className={step >= 3 ? "active" : ""}>3</div>
           </div>
 
-          <p className="message">
-            Step {step} : {messages[step - 1]}
-          </p>
+          <StepMessage step={step}>{messages[step - 1]}</StepMessage>
 
           <div className="buttons">
             <Button
@@ -63,5 +61,14 @@ function Button({ bgColor, textColor, onClick, children }) {
     >
       {children}
     </button>
+  );
+}
+
+function StepMessage({ children, step }) {
+  return (
+    <div className="message">
+      <p>Step {step} :</p>
+      {children}
+    </div>
   );
 }
