@@ -50,8 +50,8 @@ body {
 }
 
 .box {
-  width: 42rem;
-  max-width: 42rem;
+  width: 46rem;
+  max-width: 50rem;
   background-color: var(--color-background-500);
   border-radius: 0.9rem;
   /* overflow: scroll; */

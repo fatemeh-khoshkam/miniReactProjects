@@ -1,3 +1,4 @@
+import { useState } from "react";
 const tempMovieData = [
   {
     imdbID: "tt1375666",
@@ -55,13 +56,20 @@ export default function App() {
 }
 
 function Nav() {
+  const [query, setQuery] = useState("");
   return (
     <nav className="nav-bar">
       <div className="logo">
         <span role="img">🍿</span>
         <h1>usePopcorn</h1>
       </div>
-      <input className="search" type="text" placeholder="Search movies ..." />
+      <input
+        className="search"
+        type="text"
+        placeholder="Search movies ..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
       <p className="num-results">
         Found <strong>3</strong> results
       </p>
@@ -69,35 +77,53 @@ function Nav() {
   );
 }
 
-function ToggleBtn() {
-  return <button className="btn-toggle">+</button>;
+function ToggleBtn({ isOpen }) {
+  return <button className="btn-toggle">{isOpen ? "-" : "+"}</button>;
 }
 
 function Content() {
-  const movies = tempMovieData;
-  const watchedmovies = tempWatchedData;
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watchedmovies, setWatchedMovies] = useState(tempWatchedData);
+  const [isOpen, setIsOpen] = useState(true);
+
+  const average = (arr) =>
+    arr.reduce((total, cur) => total + cur / arr.length, 0);
+
+  const avgImdbRating = average(
+    tempWatchedData.map((movie) => movie.imdbRating)
+  );
+  const avgUserRating = average(
+    tempWatchedData.map((movie) => movie.userRating)
+  );
+  const avgRuntime = average(tempWatchedData.map((movie) => movie.runtime));
+
   return (
     <main className="main">
       <div className="box">
-        <ToggleBtn></ToggleBtn>
-        <ul className="list">
-          {movies.length > 0 ? (
-            movies.map((movie) => (
-              <li>
-                <img src={movie.Poster} alt={`${movie.Title} poster`} />
-                <h3>{movie.Title}</h3>
-                <div>
-                  <p>
-                    <span>🗓</span>
-                    <span>{movie.Year}</span>
-                  </p>
-                </div>
-              </li>
-            ))
-          ) : (
-            <strong>You don't have any movies yet 🎬</strong>
-          )}
-        </ul>
+        <ToggleBtn
+          isOpen={isOpen}
+          onClick={() => setIsOpen((open) => !open)}
+        ></ToggleBtn>
+        {isOpen && (
+          <ul className="list">
+            {movies.length > 0 ? (
+              movies.map((movie) => (
+                <li>
+                  <img src={movie.Poster} alt={`${movie.Title} poster`} />
+                  <h3>{movie.Title}</h3>
+                  <div>
+                    <p>
+                      <span>🗓</span>
+                      <span>{movie.Year}</span>
+                    </p>
+                  </div>
+                </li>
+              ))
+            ) : (
+              <strong>You don't have any movies yet 🎬</strong>
+            )}
+          </ul>
+        )}
       </div>
 
       <div className="box">
@@ -112,15 +138,15 @@ function Content() {
               </p>
               <p>
                 <span>⭐️</span>
-                <span>6</span>
+                <span>{avgImdbRating}</span>
               </p>
               <p>
                 <span>🌟</span>
-                <span>3</span>
+                <span>{avgUserRating}</span>
               </p>
               <p>
                 <span>⏳</span>
-                <span>1 min</span>
+                <span>{avgRuntime} min</span>
               </p>
             </div>
           </div>
