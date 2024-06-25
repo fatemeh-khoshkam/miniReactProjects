@@ -1,22 +1,22 @@
-import { useState } from "react";
+import React , {MouseEventHandler, ReactNode, useState } from "react";
 
-const messages = [
+const messages:string[] = [
   "Learn React ⚛️",
   "Apply for jobs 💼",
   "Invest your new income 🤑",
 ];
 
-export default function App() {
-  const [step, setStep] = useState(1);
-  const [isOpen, setIsOpen] = useState(true);
+export default function App():React.JSX.Element {
+  const [step, setStep] = useState<number>(1);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  function previousHandler() {
+  function previousHandler():void {
     if (step > 1) setStep((prevStep) => prevStep - 1);
   }
-  function nextHandler() {
+  function nextHandler():void {
     if (step < 3) setStep((prevStep) => prevStep + 1);
   }
-  function closeHandler() {
+  function closeHandler():void {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   }
 
@@ -53,7 +53,14 @@ export default function App() {
   );
 }
 
-function Button({ bgColor, textColor, onClick, children }) {
+interface buttonProps {
+  bgColor: string;
+  textColor: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
+  children: ReactNode;
+}
+
+function Button({ bgColor, textColor, onClick, children }: buttonProps):React.JSX.Element {
   return (
     <button
       style={{ backgroundColor: bgColor, color: textColor }}
@@ -64,7 +71,12 @@ function Button({ bgColor, textColor, onClick, children }) {
   );
 }
 
-function StepMessage({ children, step }) {
+interface stepProps {
+  children: ReactNode;
+  step: number;
+}
+
+function StepMessage({ children, step } : stepProps):React.JSX.Element {
   return (
     <div className="message">
       <p>Step {step} :</p>
