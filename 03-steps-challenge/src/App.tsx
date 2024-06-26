@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./style.css";
 
-export default function App() {
+export default function App():React.JSX.Element {
   return (
     <div className="App">
       <Counter />
@@ -9,30 +9,30 @@ export default function App() {
   );
 }
 
-//This component gets step forexample step:3 and you can count with that step,
+//This component gets step for example step:3, and you can count with that step,
 //during this calculation the date is changed based on that count.
-function Counter() {
-  const [step, setStep] = useState(1);
-  const [count, setCount] = useState(0);
+function Counter():React.JSX.Element  {
+  const [step, setStep] = useState<number>(1);
+  const [count, setCount] = useState<number>(0);
 
-  //get date and add with count to recieve true date
-  const date = new Date("Aug 23 2023");
+  //get date and add with count to receive true date
+  const date:Date = new Date("Aug 23 2023");
   date.setDate(date.getDate() + count);
 
-  //These functions takes previous step and add or minus it.
-  function calcStepForward() {
+  //These functions take previous step and add or minus it.
+  function calcStepForward():void {
     setStep((prevStep) => prevStep + 1);
   }
-  function calcStepBack() {
+  function calcStepBack():void {
     setStep((prevStep) => prevStep - 1);
   }
 
-  //These functions takes previous count and calculate them with step
+  //These functions take previous count and calculate them with steps
   //Step : 3 ==> count : 0 - 3 = -3 ==> 3 days ago [with +3 ==> 3 days from today]
-  function calcCountForward() {
+  function calcCountForward():void {
     setCount((prevCount) => prevCount + step);
   }
-  function calcCountBack() {
+  function calcCountBack():void {
     setCount((prevCount) => prevCount - step);
   }
   return (
