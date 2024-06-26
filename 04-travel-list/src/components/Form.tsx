@@ -1,13 +1,20 @@
 import { useState } from "react";
-export default function Form({ onAddItems }) {
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState(1);
+import itemType from "../types";
 
-  function submitHandler(e) {
+interface formProps {
+    onAddItems: (item: itemType) => void
+}
+
+export default function Form({ onAddItems } : formProps) {
+  const [description, setDescription] = useState<string>("");
+  const [quantity, setQuantity] = useState<number>(1);
+
+
+  function submitHandler(e:React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!description) return alert("Plese fill the item input :)");
+    if (!description) return alert("Please fill the item input :)");
 
-    const newItem = {
+    const newItem:itemType = {
       quantity,
       description,
       packed: false,

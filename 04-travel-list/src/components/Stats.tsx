@@ -1,7 +1,13 @@
-export default function Stats({ items }) {
-  const numItems = items.length;
-  const packedItems = items.filter((item) => item.packed).length;
-  const percentage = Math.round((packedItems / numItems) * 100);
+import itemType from "../types";
+
+interface statsProps {
+    items: itemType[];
+}
+
+export default function Stats({ items }: statsProps ) {
+  const numItems:number = items.length;
+  const packedItems:number = items.filter((item:itemType) => item.packed).length;
+  const percentage:number = Math.round((packedItems / numItems) * 100);
 
   if (!numItems)
     return (
