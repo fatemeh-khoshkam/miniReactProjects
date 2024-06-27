@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./index.css";
 
-export default function App() {
+export default function App():React.JSX.Element {
   return (
     <div className="App">
       <Counter />
@@ -10,19 +10,19 @@ export default function App() {
 }
 
 function Counter() {
-  const [step, setStep] = useState(1);
-  const [count, setCount] = useState(0);
+  const [step, setStep] = useState<number>(1);
+  const [count, setCount] = useState<number>(0);
 
-  const date = new Date("Aug 23 2023");
+  const date:Date = new Date("Aug 23 2023");
   date.setDate(date.getDate() + count);
 
-  function plusCounter() {
+  function plusCounter():void {
     setCount((preCount) => preCount + step);
   }
-  function minusCounter() {
+  function minusCounter():void {
     setCount((preCount) => preCount - step);
   }
-  function reset() {
+  function reset():void {
     setStep(1);
     setCount(0);
   }
