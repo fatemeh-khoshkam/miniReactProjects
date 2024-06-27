@@ -1,7 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./index.css";
 
-const faqs = [
+interface faqsType {
+  title: string;
+  text: string;
+}
+
+const faqs : faqsType [] = [
   {
     title: "Where are these chairs assembled?",
     text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium, quaerat temporibus quas dolore provident nisi ut aliquid ratione beatae sequi aspernatur veniam repellendus.",
@@ -16,7 +21,7 @@ const faqs = [
   },
 ];
 
-function App() {
+function App():React.JSX.Element {
   return (
     <div>
       <Accordion data={faqs} />
@@ -24,12 +29,16 @@ function App() {
   );
 }
 
-function Accordion({ data }) {
-  const [curOpen, setCurOpen] = useState(null);
+interface AccordionDataProp{
+  data: faqsType[];
+}
+
+function Accordion({ data } : AccordionDataProp) {
+  const [curOpen, setCurOpen] = useState<number | null>(null);
 
   return (
     <div className="accordion">
-      {data.map((el, i) => (
+      {data.map((el:faqsType, i:number) => (
         <AccordionItem
           curOpen={curOpen}
           onOpen={setCurOpen}
@@ -44,10 +53,18 @@ function Accordion({ data }) {
   );
 }
 
-function AccordionItem({ title, num, curOpen, onOpen, children }) {
-  const isOpen = curOpen === num;
+interface AccordionItemProps {
+  title: string;
+  num: number;
+  curOpen: number | null;
+  onOpen: (num: number | null) => void;
+  children: React.ReactNode;
+}
 
-  function toggleHandler() {
+function AccordionItem({ title, num, curOpen, onOpen, children } : AccordionItemProps) {
+  const isOpen:boolean = curOpen === num;
+
+  function toggleHandler():void {
     onOpen(isOpen ? null : num);
   }
   return (
