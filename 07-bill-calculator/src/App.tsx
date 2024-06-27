@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState} from "react";
 
-export default function App() {
-  const [bill, setBill] = useState("");
-  const [percentage1, setPercentage1] = useState(0);
-  const [percentage2, setPercentage2] = useState(0);
-  let tip = ((percentage1 + percentage2) / 2) * 0.01;
-  let tipTotal = Number((tip * bill).toFixed(0));
+export default function App():React.JSX.Element {
+  const [bill, setBill] = useState<number | string>("");
+  const [percentage1, setPercentage1] = useState<number>(0);
+  const [percentage2, setPercentage2] = useState<number>(0);
+  let tip:number = ((percentage1 + percentage2) / 2) * 0.01;
+  let tipTotal:number = Number((tip * Number(bill)).toFixed(0));
 
-  function reset() {
+  function reset():void {
     setBill("");
     setPercentage1(0);
     setPercentage2(0);
@@ -15,14 +15,14 @@ export default function App() {
 
   return (
     <div className="App">
-      <Bill bill={isNaN(bill) ? "" : bill} onPayBill={setBill}></Bill>
+      <Bill bill={bill} onPayBill={setBill}></Bill>
       <Select percentage={percentage1} onPercentage={setPercentage1}>
         How did you like the service ?
       </Select>
       <Select percentage={percentage2} onPercentage={setPercentage2}>
         How did your friend like the service ?
       </Select>
-      {bill > 0 && (
+      {Number(bill) > 0 && (
         <>
           <OutPut bill={bill} tip={tipTotal}></OutPut>
           <Reset onReset={reset}></Reset>
@@ -31,7 +31,13 @@ export default function App() {
     </div>
   );
 }
-function Bill({ bill, onPayBill }) {
+
+interface billProps {
+    bill: number | string;
+    onPayBill: (value: number | string) => void;
+}
+
+function Bill({ bill, onPayBill } : billProps) {
   return (
     <div>
       <span>How much was the bill ?</span>
@@ -44,7 +50,14 @@ function Bill({ bill, onPayBill }) {
     </div>
   );
 }
-function Select({ children, percentage, onPercentage }) {
+
+interface selectProps{
+    children:React.ReactNode;
+    percentage: number,
+    onPercentage:(value: number) => void;
+}
+
+function Select({ children, percentage, onPercentage } : selectProps) {
   return (
     <div>
       <span>{children}</span>
@@ -60,15 +73,15 @@ function Select({ children, percentage, onPercentage }) {
     </div>
   );
 }
-function OutPut({ bill, tip }) {
-  const total = bill + tip;
+function OutPut({ bill, tip } : {bill: number | string ; tip: number}) {
+  const total:number = Number(bill) + tip;
   return (
     <h2>
       You pay ${total} ( ${bill} + ${tip} )
     </h2>
   );
 }
-function Reset({ onReset }) {
+function Reset({ onReset }:{ onReset : () => void }) {
   return (
     <button className="button" onClick={onReset}>
       Reset
