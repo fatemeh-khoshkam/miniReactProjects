@@ -1,24 +1,29 @@
 import { useState } from "react";
 import { Button } from "./Button";
+import {initialFriendType} from "../types/myTypes";
 
-export function AddFriend({ onAddFriend }) {
-  const [name, setName] = useState("");
-  const [image, setImage] = useState("https://i.pravatar.cc/48");
+type addFriendProps = {
+    onAddFriend: (friend:initialFriendType) => void
+}
 
-  const id = crypto.randomUUID();
+export function AddFriend({ onAddFriend } : addFriendProps) {
+  const [name, setName] = useState<string>("");
+  const [image, setImage] = useState<string>("https://i.pravatar.cc/48");
 
-  function submitHandler(e) {
+  const id:number = Number(crypto.randomUUID());
+
+  function submitHandler(e:React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!name || !image) return alert("please fill the form in correct way :)");
 
-    const newFreiend = {
+    const newFriend: initialFriendType = {
       name,
       image: `${image}?=${id}`,
       id,
       balance: 0,
     };
-    onAddFriend(newFreiend);
+    onAddFriend(newFriend);
     setName("");
     setImage("https://i.pravatar.cc/48");
   }

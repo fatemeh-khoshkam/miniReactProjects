@@ -1,11 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "../index.css";
 import { Button } from "./Button";
 import { SplitBill } from "./SplitBill";
 import { AddFriend } from "./AddFriend";
 import { FriendsList } from "./FriendsList";
+import {initialFriendType} from "../types/myTypes";
 
-const initialFriends = [
+const initialFriends:initialFriendType[] = [
   {
     id: 118836,
     name: "Clark",
@@ -25,33 +26,34 @@ const initialFriends = [
     balance: 0,
   },
 ];
-export default function App() {
-  const [friend, setFriend] = useState(initialFriends);
-  const [selection, setSelection] = useState(null);
-  const [showAddFriend, setShowAddFriend] = useState(false);
+export default function App():React.JSX.Element {
+  const [friend, setFriend] = useState<initialFriendType[]>(initialFriends);
+  const [selection, setSelection] = useState<null | initialFriendType>(null);
+  const [showAddFriend, setShowAddFriend] = useState<boolean>(false);
 
-  function addFriendToggle() {
-    setShowAddFriend((state) => !state);
+  function addFriendToggle():void {
+    setShowAddFriend((state:boolean) => !state);
   }
-  function addFriend(friend) {
-    setFriend((friends) => [...friends, friend]);
+  function addFriend(friend:initialFriendType):void {
+    setFriend((friends:initialFriendType[]) => [...friends, friend]);
     setShowAddFriend(false);
   }
 
-  function selectionHandler(friend) {
-    setSelection((curFriend) => (curFriend?.id === friend.id ? null : friend));
+  function selectionHandler(friend:initialFriendType):void {
+    setSelection((curFriend:initialFriendType | null) => (curFriend?.id === friend.id ? null : friend));
     setShowAddFriend(false);
   }
 
-  function splitBill(payed) {
-    setFriend((friends) =>
-      friends.map((friend) =>
-        friend.id === selection.id
-          ? { ...friend, balance: friend.balance + payed }
-          : friend
-      )
-    );
-
+  function splitBill(payed:number | null):void {
+    if (payed !== null) {
+      setFriend((friends:initialFriendType[]) =>
+        friends.map((friend:initialFriendType) =>
+          friend.id === selection?.id
+            ? { ...friend, balance: friend.balance + payed }
+            : friend
+        )
+      );
+    }
     setSelection(null);
   }
 
@@ -60,7 +62,7 @@ export default function App() {
       <div className="sidebar">
         <FriendsList
           friends={friend}
-          onAddFriend={addFriend}
+          //onAddFriend={addFriend}
           onSelection={selectionHandler}
           onSelectedFriend={selection}
         />

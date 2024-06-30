@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useState }  from "react";
 import { Button } from "./Button";
+import {initialFriendType} from "../types/myTypes";
+import React from "react";
 
-export function SplitBill({ onSelected, onSplitBill }) {
-  const [bill, setBill] = useState("");
-  const [paidByUser, setPaidByUser] = useState("");
-  const [whoIsPayed, setWhoIsPayed] = useState("you");
-  const paidByFriend = bill ? bill - paidByUser : "";
+type SplitBillProps = {
+    onSelected: initialFriendType;
+    onSplitBill: (payed:number | null) => void
+}
 
-  function submitHandler(e) {
+export function SplitBill({ onSelected, onSplitBill } : SplitBillProps) {
+  const [bill, setBill] = useState<number>(0);
+  const [paidByUser, setPaidByUser] = useState<number>(0);
+  const [whoIsPayed, setWhoIsPayed] = useState<string>("you");
+  const paidByFriend: number = bill ? bill - paidByUser : 0;
+
+  function submitHandler(e:React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!bill || !paidByUser)
       return alert("please fill the form in correct way :)");
 
-    onSplitBill(whoIsPayed === "you" ? paidByFriend : -paidByUser);
+    let payed:number | null = whoIsPayed === "you" ? paidByFriend : -paidByUser
+    onSplitBill(payed);
     console.log(onSelected.balance);
   }
 

@@ -1,7 +1,14 @@
 import { Button } from "./Button";
+import {initialFriendType} from "../types/myTypes";
 
-export function Friend({ friend, onSelection, onSelectedFriend }) {
-  const isSelected = onSelectedFriend?.id === friend.id;
+type friendListProps = {
+    friend: initialFriendType,
+    onSelection: (friend: initialFriendType) => void,
+    onSelectedFriend: initialFriendType | null
+}
+
+export function Friend({ friend, onSelection, onSelectedFriend } : friendListProps) {
+  const isSelected:boolean = onSelectedFriend?.id === friend.id;
 
   return (
     <li className={isSelected ? "selected" : ""}>
