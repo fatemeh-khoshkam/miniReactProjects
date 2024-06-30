@@ -5,7 +5,7 @@ import React from "react";
 
 type SplitBillProps = {
     onSelected: initialFriendType;
-    onSplitBill: (payed:number | null) => void
+    onSplitBill: (payed:number) => void
 }
 
 export function SplitBill({ onSelected, onSplitBill } : SplitBillProps) {

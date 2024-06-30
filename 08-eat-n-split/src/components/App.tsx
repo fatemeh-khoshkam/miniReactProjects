@@ -8,19 +8,19 @@ import {initialFriendType} from "../types/myTypes";
 
 const initialFriends:initialFriendType[] = [
   {
-    id: 118836,
+    id: 1,
     name: "Clark",
     image: "https://i.pravatar.cc/48?u=118836",
     balance: -7,
   },
   {
-    id: 933372,
+    id: 2,
     name: "Sarah",
     image: "https://i.pravatar.cc/48?u=933372",
     balance: 20,
   },
   {
-    id: 499476,
+    id: 3,
     name: "Anthony",
     image: "https://i.pravatar.cc/48?u=499476",
     balance: 0,
@@ -44,8 +44,8 @@ export default function App():React.JSX.Element {
     setShowAddFriend(false);
   }
 
-  function splitBill(payed:number | null):void {
-    if (payed !== null) {
+  function splitBill(payed:number):void {
+
       setFriend((friends:initialFriendType[]) =>
         friends.map((friend:initialFriendType) =>
           friend.id === selection?.id
@@ -53,7 +53,7 @@ export default function App():React.JSX.Element {
             : friend
         )
       );
-    }
+
     setSelection(null);
   }
 

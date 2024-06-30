@@ -7,8 +7,12 @@ type friendListProps = {
     onSelectedFriend: initialFriendType | null
 }
 
+
+
 export function FriendsList({ friends, onSelection, onSelectedFriend } : friendListProps) {
+    console.log('friends : '+ friends.map(f=> console.log(f)));
   return (
+
     <div className="sidebar">
       <ul>
         {friends.map((friend:initialFriendType) => (
