@@ -1,5 +1,9 @@
 import { useState } from "react";
-const tempMovieData = [
+import  { tempMovieDataType, tempWatchedDataType } from './types';
+import Nav from "./components/Nav";
+import average from "./utils/average";
+
+const tempMovieData:tempMovieDataType[] = [
   {
     imdbID: "tt1375666",
     Title: "Inception",
@@ -23,7 +27,7 @@ const tempMovieData = [
   },
 ];
 
-const tempWatchedData = [
+const tempWatchedData:tempWatchedDataType[] = [
   {
     imdbID: "tt1375666",
     Title: "Inception",
@@ -55,59 +59,39 @@ export default function App() {
   );
 }
 
-function Nav() {
-  const [query, setQuery] = useState("");
-  return (
-    <nav className="nav-bar">
-      <div className="logo">
-        <span role="img">🍿</span>
-        <h1>usePopcorn</h1>
-      </div>
-      <input
-        className="search"
-        type="text"
-        placeholder="Search movies ..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <p className="num-results">
-        Found <strong>3</strong> results
-      </p>
-    </nav>
-  );
+type toggleBtnProps = {
+  isOpen?: boolean;
+  onClick?: () => void;
 }
 
-function ToggleBtn({ isOpen }) {
+function ToggleBtn({ isOpen , onClick } : toggleBtnProps) {
   return <button className="btn-toggle">{isOpen ? "-" : "+"}</button>;
 }
 
 function Content() {
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watchedmovies, setWatchedMovies] = useState(tempWatchedData);
-  const [isOpen, setIsOpen] = useState(true);
+  const [movies, setMovies] = useState<tempMovieDataType[]>(tempMovieData);
+  const [watchedmovies, setWatchedMovies] = useState<tempWatchedDataType[]>(tempWatchedData);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  const average = (arr) =>
-    arr.reduce((total, cur) => total + cur / arr.length, 0);
-
-  const avgImdbRating = average(
-    tempWatchedData.map((movie) => movie.imdbRating)
+  const avgImdbRating:number = average(
+    tempWatchedData.map((movie:tempWatchedDataType) => movie.imdbRating)
   );
-  const avgUserRating = average(
-    tempWatchedData.map((movie) => movie.userRating)
+  const avgUserRating:number = average(
+    tempWatchedData.map((movie:tempWatchedDataType) => movie.userRating)
   );
-  const avgRuntime = average(tempWatchedData.map((movie) => movie.runtime));
+  const avgRuntime :number = average(tempWatchedData.map((movie:tempWatchedDataType) => movie.runtime));
 
   return (
     <main className="main">
       <div className="box">
         <ToggleBtn
           isOpen={isOpen}
-          onClick={() => setIsOpen((open) => !open)}
+          onClick={() => setIsOpen((open:boolean) => !open)}
         ></ToggleBtn>
         {isOpen && (
           <ul className="list">
             {movies.length > 0 ? (
-              movies.map((movie) => (
+              movies.map((movie:tempMovieDataType) => (
                 <li>
                   <img src={movie.Poster} alt={`${movie.Title} poster`} />
                   <h3>{movie.Title}</h3>
@@ -152,7 +136,7 @@ function Content() {
           </div>
 
           <ul className="list">
-            {watchedmovies.map((movie) => (
+            {watchedmovies.map((movie:tempWatchedDataType) => (
               <li>
                 <img src={movie.Poster} alt={`${movie.Title} poster`} />
                 <h3>{movie.Title}</h3>
