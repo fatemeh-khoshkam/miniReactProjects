@@ -2,6 +2,10 @@ import { useState } from "react";
 import  { tempMovieDataType, tempWatchedDataType } from './types';
 import Nav from "./components/Nav";
 import average from "./utils/average";
+import ToggleBtn from "./components/ToggleBtn";
+import SearchBox from "./components/SearchBox";
+import WatchedMoviesList from './components/WatchedMoviesList'
+import WatchedSummary from "./components/WatchedSummary";
 
 const tempMovieData:tempMovieDataType[] = [
   {
@@ -50,6 +54,8 @@ const tempWatchedData:tempWatchedDataType[] = [
   },
 ];
 
+const KEY:string = "6487f592";
+
 export default function App() {
   return (
     <>
@@ -59,104 +65,28 @@ export default function App() {
   );
 }
 
-type toggleBtnProps = {
-  isOpen?: boolean;
-  onClick?: () => void;
-}
-
-function ToggleBtn({ isOpen , onClick } : toggleBtnProps) {
-  return <button className="btn-toggle">{isOpen ? "-" : "+"}</button>;
-}
 
 function Content() {
   const [movies, setMovies] = useState<tempMovieDataType[]>(tempMovieData);
-  const [watchedmovies, setWatchedMovies] = useState<tempWatchedDataType[]>(tempWatchedData);
+  const [watchedmovies, setWatchedmovies] = useState<tempWatchedDataType[]>(tempWatchedData);
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  const avgImdbRating:number = average(
-    tempWatchedData.map((movie:tempWatchedDataType) => movie.imdbRating)
-  );
-  const avgUserRating:number = average(
-    tempWatchedData.map((movie:tempWatchedDataType) => movie.userRating)
-  );
-  const avgRuntime :number = average(tempWatchedData.map((movie:tempWatchedDataType) => movie.runtime));
+
+  const close = ():void => {
+    setIsOpen((open:boolean) => !open);
+  }
 
   return (
     <main className="main">
-      <div className="box">
-        <ToggleBtn
-          isOpen={isOpen}
-          onClick={() => setIsOpen((open:boolean) => !open)}
-        ></ToggleBtn>
-        {isOpen && (
-          <ul className="list">
-            {movies.length > 0 ? (
-              movies.map((movie:tempMovieDataType) => (
-                <li>
-                  <img src={movie.Poster} alt={`${movie.Title} poster`} />
-                  <h3>{movie.Title}</h3>
-                  <div>
-                    <p>
-                      <span>🗓</span>
-                      <span>{movie.Year}</span>
-                    </p>
-                  </div>
-                </li>
-              ))
-            ) : (
-              <strong>You don't have any movies yet 🎬</strong>
-            )}
-          </ul>
-        )}
-      </div>
+
+      <SearchBox onIsOpen={isOpen} movies={movies} onSetIsOpen={close}></SearchBox>
 
       <div className="box">
         <ToggleBtn></ToggleBtn>
         <>
-          <div className="summary">
-            <h2>Movies you watched</h2>
-            <div>
-              <p>
-                <span>#️⃣</span>
-                <span>{watchedmovies.length} movies</span>
-              </p>
-              <p>
-                <span>⭐️</span>
-                <span>{avgImdbRating}</span>
-              </p>
-              <p>
-                <span>🌟</span>
-                <span>{avgUserRating}</span>
-              </p>
-              <p>
-                <span>⏳</span>
-                <span>{avgRuntime} min</span>
-              </p>
-            </div>
-          </div>
+          <WatchedSummary onWatchedMovies={watchedmovies}></WatchedSummary>
 
-          <ul className="list">
-            {watchedmovies.map((movie:tempWatchedDataType) => (
-              <li>
-                <img src={movie.Poster} alt={`${movie.Title} poster`} />
-                <h3>{movie.Title}</h3>
-                <div>
-                  <p>
-                    <span>⭐️</span>
-                    <span>{movie.imdbRating}</span>
-                  </p>
-                  <p>
-                    <span>🌟</span>
-                    <span>{movie.userRating}</span>
-                  </p>
-                  <p>
-                    <span>⏳</span>
-                    <span>{movie.runtime} min</span>
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <WatchedMoviesList onWatchedMovies={watchedmovies}></WatchedMoviesList>
         </>
       </div>
     </main>
