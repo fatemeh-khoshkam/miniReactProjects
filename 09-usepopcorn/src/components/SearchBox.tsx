@@ -8,8 +8,9 @@ type searchBoxPropsType = {
 }
 
 export default function SearchBox({onIsOpen , movies , onSetIsOpen}: searchBoxPropsType) {
+
     return(
-        <div className="box">
+        <>
         <ToggleBtn
             isOpen={onIsOpen}
             onClick={() => onSetIsOpen}
@@ -34,5 +35,5 @@ export default function SearchBox({onIsOpen , movies , onSetIsOpen}: searchBoxPr
                 )}
             </ul>
         )}
-    </div>)
+    </>)
 }
