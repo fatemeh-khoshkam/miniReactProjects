@@ -1,5 +1,7 @@
 import ToggleBtn from "./ToggleBtn";
 import {tempMovieDataType} from "../types";
+import {useState} from "react";
+import Movie from "./Movie";
 
 type searchBoxPropsType = {
     onIsOpen: boolean;
@@ -8,6 +10,16 @@ type searchBoxPropsType = {
 }
 
 export default function SearchBox({onIsOpen , movies , onSetIsOpen}: searchBoxPropsType) {
+    const [selectedMovieId, setSelectedMovieId] = useState<string>('')
+
+    function handleSelectMovie(id:string) {
+        setSelectedMovieId((selectedMovieId) => (id === selectedMovieId ? '' : id));
+
+        const newSelectedId = (id === selectedMovieId ? '' : id);
+        console.log(newSelectedId); // Log the new selected ID
+
+    }
+    console.log(movies);
 
     return(
         <>
@@ -16,23 +28,12 @@ export default function SearchBox({onIsOpen , movies , onSetIsOpen}: searchBoxPr
             onClick={() => onSetIsOpen}
         ></ToggleBtn>
         {onIsOpen && (
-            <ul className="list">
-                {movies.length > 0 ? (
-                    movies.map((movie: tempMovieDataType) => (
-                        <li>
-                            <img src={movie.Poster} alt={`${movie.Title} poster`}/>
-                            <h3>{movie.Title}</h3>
-                            <div>
-                                <p>
-                                    <span>🗓</span>
-                                    <span>{movie.Year}</span>
-                                </p>
-                            </div>
-                        </li>
+            <ul className="list list-movies">
+                {
+                    movies?.map((movie: tempMovieDataType) => (
+                        <Movie key={movie.imdbID} movie={movie} onSelectMovie={handleSelectMovie}></Movie>
                     ))
-                ) : (
-                    <strong>You don't have any movies yet 🎬</strong>
-                )}
+                 }
             </ul>
         )}
     </>)

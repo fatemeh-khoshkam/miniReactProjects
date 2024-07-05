@@ -1,16 +1,13 @@
-import {useEffect, useState} from "react";
 
 
-export default function Search() {
-    const [query, setQuery] = useState<string>('');
-
+export default function Search({query , onSetQuery}: {query: string , onSetQuery: (query: string) => void }) {
     return (
         <input
             className="search"
             type="text"
             placeholder="Search movies ..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => onSetQuery(e.target.value)}
         />
     )
 }

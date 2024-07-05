@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
 import  { tempMovieDataType, tempWatchedDataType } from './types';
 import Nav from "./components/Nav";
-import average from "./utils/average";
 import ToggleBtn from "./components/ToggleBtn";
 import SearchBox from "./components/SearchBox";
 import WatchedMoviesList from './components/WatchedMoviesList'
 import WatchedSummary from "./components/WatchedSummary";
+import Loader from "./components/Loader";
 
 const tempMovieData:tempMovieDataType[] = [
   // {
@@ -57,21 +57,22 @@ const tempWatchedData:tempWatchedDataType[] = [
 const KEY:string = "6487f592";
 
 export default function App() {
+  const [query, setQuery] = useState<string>('');
+
   return (
     <>
-      <Nav></Nav>
-      <Content></Content>
+      <Nav query={query} onSetQuery={setQuery}></Nav>
+      <Content query={query} onSetQuery={setQuery}></Content>
     </>
   );
 }
 
-function Content() {
+function Content({query , onSetQuery }: {query: string , onSetQuery: (query: string) => void }) {
   const [movies, setMovies] = useState<tempMovieDataType[]>(tempMovieData);
   const [watchedmovies, setWatchedmovies] = useState<tempWatchedDataType[]>(tempWatchedData);
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [error,setError] = useState<string>("");
-  const [isLoading,setIsLoading] = useState<boolean>(false)
-  const query:string = 'ince';
+  const [isLoading,setIsLoading] = useState<boolean>(false);
 
   useEffect(function(){
     async function fetchMovies (){
@@ -108,14 +109,11 @@ function Content() {
     }
 
     fetchMovies();
-  },[])
+  },[query])
 
   const close = ():void => {
     setIsOpen((open:boolean) => !open);
   }
-
-
-
 
   return (
     <main className="main">
@@ -143,8 +141,4 @@ const ReportError = ({message} : { message:string }) =>{
   );
 }
 
-const Loader = () => {
-  return (
-      <p className="loader">Loading ...</p>
-  )
-}
+
