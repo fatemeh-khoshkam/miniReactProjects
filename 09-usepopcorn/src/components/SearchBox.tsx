@@ -6,19 +6,12 @@ import Movie from "./Movie";
 type searchBoxPropsType = {
     onIsOpen: boolean;
     movies: tempMovieDataType[];
-    onSetIsOpen: () => void
+    onSetIsOpen: () => void;
+    handleSelectMovie: (id: string) => void;
 }
 
-export default function SearchBox({onIsOpen , movies , onSetIsOpen}: searchBoxPropsType) {
-    const [selectedMovieId, setSelectedMovieId] = useState<string>('')
+export default function SearchBox({onIsOpen , movies , onSetIsOpen , handleSelectMovie }: searchBoxPropsType) {
 
-    function handleSelectMovie(id:string) {
-        setSelectedMovieId((selectedMovieId) => (id === selectedMovieId ? '' : id));
-
-        const newSelectedId = (id === selectedMovieId ? '' : id);
-        console.log(newSelectedId); // Log the new selected ID
-
-    }
     console.log(movies);
 
     return(

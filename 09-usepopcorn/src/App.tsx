@@ -6,6 +6,7 @@ import SearchBox from "./components/SearchBox";
 import WatchedMoviesList from './components/WatchedMoviesList'
 import WatchedSummary from "./components/WatchedSummary";
 import Loader from "./components/Loader";
+import MovieDetails from "./components/MovieDetails";
 
 const tempMovieData:tempMovieDataType[] = [
   // {
@@ -73,6 +74,13 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [error,setError] = useState<string>("");
   const [isLoading,setIsLoading] = useState<boolean>(false);
+  const [selectedMovieId, setSelectedMovieId] = useState<string>('');
+
+  function handleSelectMovie(id:string):void {
+    setSelectedMovieId((selectedId) => (id === selectedId ? '' : id));
+    // const newSelectedId = (id === selectedMovieId ? '' : id);
+    // console.log(newSelectedId); // Log the new selected ID
+  }
 
   useEffect(function(){
     async function fetchMovies (){
@@ -120,14 +128,19 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
       <div className="box">
         {error && <ReportError message={error}></ReportError>}
         {isLoading && <Loader></Loader>}
-        {!error && !isLoading && <SearchBox onIsOpen={isOpen} movies={movies} onSetIsOpen={close}></SearchBox>}
+        {!error && !isLoading && <SearchBox handleSelectMovie={handleSelectMovie} onIsOpen={isOpen} movies={movies} onSetIsOpen={close}></SearchBox>}
       </div>
       <div className="box">
         <ToggleBtn></ToggleBtn>
-        <>
-          <WatchedSummary onWatchedMovies={watchedmovies}></WatchedSummary>
-          <WatchedMoviesList onWatchedMovies={watchedmovies}></WatchedMoviesList>
-        </>
+        {
+          selectedMovieId ?
+              <MovieDetails selectedId={selectedMovieId}></MovieDetails>
+              :
+              <>
+                <WatchedSummary onWatchedMovies={watchedmovies}></WatchedSummary>
+                <WatchedMoviesList onWatchedMovies={watchedmovies}></WatchedMoviesList>
+              </>
+        }
       </div>
     </main>
   );
