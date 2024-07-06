@@ -82,6 +82,12 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
     // console.log(newSelectedId); // Log the new selected ID
   }
 
+  type searchResponse = {
+    Response: string,
+    Search: tempMovieDataType[],
+    totalResults?: number,
+  }
+
   useEffect(function(){
     async function fetchMovies (){
       try {
@@ -91,9 +97,9 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
         const res = await fetch(`http://www.omdbapi.com/?s=${query}&apikey=${KEY}`);
         if(!res.ok) throw new Error(`Could not fetch movies`);
 
-        const data = await res.json();
+        const data:searchResponse = await res.json();
         if(data.Response === 'False') throw new Error("Movie not found");
-
+        console.log(data)
         setMovies(data.Search);
         setError('');
       }
