@@ -4,10 +4,12 @@ const styleContainer:{
     display: string,
     gap:string,
     alignItems:string,
+    justifyContent:string
 }= {
     display: 'flex',
     gap: "16px",
     alignItems: "center",
+    justifyContent: "center",
 }
 
 const starContainerStyle:{
@@ -22,14 +24,19 @@ type starRatingPropsType = {
     color?: string,
     size?: number,
     messages?: string[],
+    defaultRating? : number,
+    onSetRating? : (rate:number) => void
 }
 
-export default function StarRating({ maxRating = 5 , color = "#fcc419" , size = 48 , messages}: starRatingPropsType) {
-    const [rating, setRating] = useState<number>(0);
+function StarRating({ maxRating = 5 , color = "#fcc419" , size = 48 , messages , defaultRating = 0 , onSetRating }: starRatingPropsType) {
+    const [rating, setRating] = useState<number>(defaultRating);
     const [tempRating, setTempRating] = useState<number>(0);
 
     function handleRating(rating:number):void {
         setRating(rating)
+        if (onSetRating) {
+            onSetRating(rating)
+        }
     }
 
     function checkFullStarRating(i:number):boolean {
@@ -68,8 +75,6 @@ export default function StarRating({ maxRating = 5 , color = "#fcc419" , size = 
         </div>
     );
 }
-
-
 
 type starPropsType = {
     onRate: () => void ,
@@ -130,3 +135,5 @@ function Star({ onRate , full , onHoverIn ,onHoverOut , color , size }: starProp
         </span>
     )
 }
+
+export default StarRating

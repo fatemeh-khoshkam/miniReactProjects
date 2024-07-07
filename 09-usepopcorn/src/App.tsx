@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
 import  { tempMovieDataType, tempWatchedDataType } from './types';
 import Nav from "./components/Nav";
-import ToggleBtn from "./components/ToggleBtn";
-import SearchBox from "./components/SearchBox";
+import MovieList from "./components/MovieList";
 import WatchedMoviesList from './components/WatchedMoviesList'
 import WatchedSummary from "./components/WatchedSummary";
 import Loader from "./components/Loader";
 import MovieDetails from "./components/MovieDetails";
+import Box from "./components/Box";
 
 const tempMovieData:tempMovieDataType[] = [
   // {
@@ -71,7 +71,6 @@ export default function App() {
 function Content({query , onSetQuery }: {query: string , onSetQuery: (query: string) => void }) {
   const [movies, setMovies] = useState<tempMovieDataType[]>(tempMovieData);
   const [watchedmovies, setWatchedmovies] = useState<tempWatchedDataType[]>(tempWatchedData);
-  const [isOpen, setIsOpen] = useState<boolean>(true);
   const [error,setError] = useState<string>("");
   const [isLoading,setIsLoading] = useState<boolean>(false);
   const [selectedMovieId, setSelectedMovieId] = useState<string>('');
@@ -125,29 +124,28 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
     fetchMovies();
   },[query])
 
-  const close = ():void => {
-    setIsOpen((open:boolean) => !open);
+  const handleCloseMovie = ():void => {
+    setSelectedMovieId("");
   }
 
   return (
     <main className="main">
-      <div className="box">
+      <Box>
         {error && <ReportError message={error}></ReportError>}
         {isLoading && <Loader></Loader>}
-        {!error && !isLoading && <SearchBox handleSelectMovie={handleSelectMovie} onIsOpen={isOpen} movies={movies} onSetIsOpen={close}></SearchBox>}
-      </div>
-      <div className="box">
-        <ToggleBtn></ToggleBtn>
+        {!error && !isLoading && <MovieList handleSelectMovie={handleSelectMovie} movies={movies}></MovieList>}
+      </Box>
+      <Box>
         {
           selectedMovieId ?
-              <MovieDetails selectedId={selectedMovieId}></MovieDetails>
+              <MovieDetails selectedId={selectedMovieId} onCloseMovie={handleCloseMovie}></MovieDetails>
               :
               <>
                 <WatchedSummary onWatchedMovies={watchedmovies}></WatchedSummary>
                 <WatchedMoviesList onWatchedMovies={watchedmovies}></WatchedMoviesList>
               </>
         }
-      </div>
+      </Box>
     </main>
   );
 }

@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 import Loader from "./Loader";
-const KEY:string = "6487f592";
+import StarRating from "./StarRating";
 
+const KEY:string = "6487f592";
 
 type movie = {
     Title: string,
@@ -28,7 +29,7 @@ const defaultMovie: movie = {
     Genre: "",
 };
 
-export default function MovieDetails({ selectedId } : { selectedId:string }) {
+export default function MovieDetails({ selectedId , onCloseMovie } : { selectedId:string , onCloseMovie: () => void}) {
     const [movie,setMovie] = useState<movie>(defaultMovie)
 
     useEffect(function (){
@@ -61,7 +62,7 @@ export default function MovieDetails({ selectedId } : { selectedId:string }) {
             {movie.Title ?
                 (<>
                     <header>
-                        <button className="btn-back">
+                        <button className="btn-back" onClick={() => onCloseMovie()}>
                             &larr;
                         </button>
                         <img src={poster} alt={`Poster of ${movie} movie`} />
@@ -81,6 +82,21 @@ export default function MovieDetails({ selectedId } : { selectedId:string }) {
                     {/* <p>{avgRating}</p> */}
 
                     <section>
+                        <div className="rating">
+
+                                <>
+                                    <StarRating
+                                        maxRating={10}
+                                        size={24}
+                                    />
+
+                                    <button className="btn-add">
+                                        + Add to list
+                                    </button>
+
+                                </>
+
+                        </div>
                         <p>
                             <em>{plot}</em>
                         </p>
@@ -89,7 +105,7 @@ export default function MovieDetails({ selectedId } : { selectedId:string }) {
                     </section>
                 </>)
                 :
-                <Loader />
+                <Loader/>
             }
         </div>
     );
