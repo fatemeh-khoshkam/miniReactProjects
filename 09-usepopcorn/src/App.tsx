@@ -132,6 +132,10 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
     setWatchedMovies(watchedMovies => [...watchedMovies, movie])
   }
 
+  function handleDeleteWatchedMovie(id:string):void {
+    setWatchedMovies(watchedMovies => watchedMovies.filter((movie:tempWatchedDataType) => movie.imdbID !== id))
+  }
+
   return (
     <main className="main">
       <Box>
@@ -151,7 +155,7 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
             :
             <>
               <WatchedSummary watchedMovies={watchedMovies}></WatchedSummary>
-              <WatchedMoviesList watchedMovies={watchedMovies}></WatchedMoviesList>
+              <WatchedMoviesList watchedMovies={watchedMovies} deleteMovie={handleDeleteWatchedMovie}></WatchedMoviesList>
             </>
         }
       </Box>
