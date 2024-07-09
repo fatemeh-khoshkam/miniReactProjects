@@ -54,7 +54,6 @@ export default function MovieDetails({ selectedId , onCloseMovie , onAddWatched 
             setMovie(data)
             setUserRating(null);
             setIsLoading(false)
-
         }
         fetchMovieDetails()
     },[selectedId])
@@ -87,6 +86,11 @@ export default function MovieDetails({ selectedId , onCloseMovie , onAddWatched 
         onAddWatched(newWatchedMovie);
         onCloseMovie();
     }
+    useEffect(function (){
+        if (!title) return;
+        document.title =`Movie | ${title}`;
+    } , [title])
+
 
     console.log(movie)
     return (

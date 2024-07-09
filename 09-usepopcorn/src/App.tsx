@@ -125,7 +125,9 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
   },[query])
 
   const handleCloseMovie = ():void => {
+    document.title = 'usePopCorn'
     setSelectedMovieId("");
+
   }
 
   function handleAddWatched(movie:tempWatchedDataType):void {
