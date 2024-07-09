@@ -150,8 +150,8 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
             ></MovieDetails>
             :
             <>
-              <WatchedSummary onWatchedMovies={watchedMovies}></WatchedSummary>
-              <WatchedMoviesList onWatchedMovies={watchedMovies}></WatchedMoviesList>
+              <WatchedSummary watchedMovies={watchedMovies}></WatchedSummary>
+              <WatchedMoviesList watchedMovies={watchedMovies}></WatchedMoviesList>
             </>
         }
       </Box>

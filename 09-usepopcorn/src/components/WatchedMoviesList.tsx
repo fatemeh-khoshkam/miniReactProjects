@@ -3,15 +3,15 @@ import WatchedMovie from './WatchedMovie'
 
 
 type watchedMoviesListPropsType = {
-    onWatchedMovies: tempWatchedDataType[]
+    watchedMovies: tempWatchedDataType[]
 }
 
-export default function watchedMoviesList({ onWatchedMovies }: watchedMoviesListPropsType) {
+export default function watchedMoviesList({ watchedMovies }: watchedMoviesListPropsType) {
     return (
         <ul className="list">
-        {onWatchedMovies.map((movie: tempWatchedDataType) => (
-            <WatchedMovie movie={movie}></WatchedMovie>
-        ))}
-    </ul>
+            {watchedMovies.map((movie: tempWatchedDataType) => (
+                <WatchedMovie key={movie.imdbID} movie={movie}></WatchedMovie>
+            ))}
+        </ul>
     );
 }
