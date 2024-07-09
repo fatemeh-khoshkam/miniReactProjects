@@ -88,12 +88,14 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
   }
 
   useEffect(function(){
+    const controller:AbortController = new AbortController();
+
     async function fetchMovies (){
       try {
         setIsLoading(true);
         setError('');
 
-        const res = await fetch(`http://www.omdbapi.com/?s=${query}&apikey=${KEY}`);
+        const res = await fetch(`http://www.omdbapi.com/?s=${query}&apikey=${KEY}` , {signal: controller.signal});
         if(!res.ok) throw new Error(`Could not fetch movies`);
 
         const data:searchResponse = await res.json();
@@ -106,7 +108,9 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
         if (err instanceof TypeError) {
           setError('🌐 Please check your internet connection.');
         } else if (err instanceof Error) {
-          setError(err.message);
+          if (err.name !== "AbortError") {
+            setError(err.message);
+          }
         } else {
           setError('An unknown error occurred.');
         }
@@ -122,6 +126,11 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
     }
 
     fetchMovies();
+
+    return function (){
+      controller.abort();
+    }
+
   },[query])
 
   const handleCloseMovie = ():void => {
