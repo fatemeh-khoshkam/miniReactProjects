@@ -32,9 +32,12 @@ export default function WatchedSummary({ onWatchedMovies }: WatchedSummaryPropsT
     const avgImdbRating:number = average(
         tempWatchedData.map((movie:tempWatchedDataType) => movie.imdbRating)
     );
-    const avgUserRating:number = average(
-        tempWatchedData.map((movie:tempWatchedDataType) => movie.userRating)
-    );
+
+        // const  avgUserRating:number | null = average(
+        //     tempWatchedData.map((movie:tempWatchedDataType) => movie.userRating)
+        // );
+
+
     const avgRuntime :number = average(tempWatchedData.map((movie:tempWatchedDataType) => movie.runtime));
 
  return (
@@ -51,7 +54,7 @@ export default function WatchedSummary({ onWatchedMovies }: WatchedSummaryPropsT
             </p>
             <p>
                 <span>🌟</span>
-                <span>{avgUserRating}</span>
+                <span>0</span>
             </p>
             <p>
                 <span>⏳</span>

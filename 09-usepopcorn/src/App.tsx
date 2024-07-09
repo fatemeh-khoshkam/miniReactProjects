@@ -8,52 +8,52 @@ import Loader from "./components/Loader";
 import MovieDetails from "./components/MovieDetails";
 import Box from "./components/Box";
 
-const tempMovieData:tempMovieDataType[] = [
-  // {
-  //   imdbID: "tt1375666",
-  //   Title: "Inception",
-  //   Year: "2010",
-  //   Poster:
-  //     "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-  // },
-  // {
-  //   imdbID: "tt0133093",
-  //   Title: "The Matrix",
-  //   Year: "1999",
-  //   Poster:
-  //     "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-  // },
-  // {
-  //   imdbID: "tt6751668",
-  //   Title: "Parasite",
-  //   Year: "2019",
-  //   Poster:
-  //     "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
-  // },
-];
-
-const tempWatchedData:tempWatchedDataType[] = [
-  {
-    imdbID: "tt1375666",
-    Title: "Inception",
-    Year: "2010",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-    runtime: 148,
-    imdbRating: 8.8,
-    userRating: 10,
-  },
-  {
-    imdbID: "tt0088763",
-    Title: "Back to the Future",
-    Year: "1985",
-    Poster:
-      "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-    runtime: 116,
-    imdbRating: 8.5,
-    userRating: 9,
-  },
-];
+// const tempMovieData:tempMovieDataType[] = [
+//   // {
+//   //   imdbID: "tt1375666",
+//   //   Title: "Inception",
+//   //   Year: "2010",
+//   //   Poster:
+//   //     "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+//   // },
+//   // {
+//   //   imdbID: "tt0133093",
+//   //   Title: "The Matrix",
+//   //   Year: "1999",
+//   //   Poster:
+//   //     "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+//   // },
+//   // {
+//   //   imdbID: "tt6751668",
+//   //   Title: "Parasite",
+//   //   Year: "2019",
+//   //   Poster:
+//   //     "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
+//   // },
+// ];
+//
+// const tempWatchedData:tempWatchedDataType[] = [
+//   {
+//     imdbID: "tt1375666",
+//     Title: "Inception",
+//     Year: "2010",
+//     Poster:
+//       "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+//     runtime: 148,
+//     imdbRating: 8.8,
+//     userRating: 10,
+//   },
+//   {
+//     imdbID: "tt0088763",
+//     Title: "Back to the Future",
+//     Year: "1985",
+//     Poster:
+//       "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+//     runtime: 116,
+//     imdbRating: 8.5,
+//     userRating: 9,
+//   },
+// ];
 
 const KEY:string = "6487f592";
 
@@ -69,8 +69,8 @@ export default function App() {
 }
 
 function Content({query , onSetQuery }: {query: string , onSetQuery: (query: string) => void }) {
-  const [movies, setMovies] = useState<tempMovieDataType[]>(tempMovieData);
-  const [watchedmovies, setWatchedmovies] = useState<tempWatchedDataType[]>(tempWatchedData);
+  const [movies, setMovies] = useState<tempMovieDataType[]>([]);
+  const [watchedMovies, setWatchedMovies] = useState<tempWatchedDataType[]>([]);
   const [error,setError] = useState<string>("");
   const [isLoading,setIsLoading] = useState<boolean>(false);
   const [selectedMovieId, setSelectedMovieId] = useState<string>('');
@@ -128,6 +128,10 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
     setSelectedMovieId("");
   }
 
+  function handleAddWatched(movie:tempWatchedDataType):void {
+    setWatchedMovies(watchedMovies => [...watchedMovies, movie])
+  }
+
   return (
     <main className="main">
       <Box>
@@ -138,12 +142,17 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
       <Box>
         {
           selectedMovieId ?
-              <MovieDetails selectedId={selectedMovieId} onCloseMovie={handleCloseMovie}></MovieDetails>
-              :
-              <>
-                <WatchedSummary onWatchedMovies={watchedmovies}></WatchedSummary>
-                <WatchedMoviesList onWatchedMovies={watchedmovies}></WatchedMoviesList>
-              </>
+            <MovieDetails
+                selectedId={selectedMovieId}
+                onCloseMovie={handleCloseMovie}
+                onAddWatched={handleAddWatched}
+                watched={watchedMovies}
+            ></MovieDetails>
+            :
+            <>
+              <WatchedSummary onWatchedMovies={watchedMovies}></WatchedSummary>
+              <WatchedMoviesList onWatchedMovies={watchedMovies}></WatchedMoviesList>
+            </>
         }
       </Box>
     </main>

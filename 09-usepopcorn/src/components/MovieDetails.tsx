@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import Loader from "./Loader";
 import StarRating from "./StarRating";
+import {tempWatchedDataType} from "../types";
 
 const KEY:string = "6487f592";
 
@@ -10,11 +11,11 @@ type movie = {
     Poster: string,
     Runtime: string,
     imdbRating : string,
-    Plot: string,
-    Released: string,
-    Actors: string,
-    Director: string,
-    Genre: string,
+    Plot?: string,
+    Released?: string,
+    Actors?: string,
+    Director?: string,
+    Genre?: string,
 }
 const defaultMovie: movie = {
     Title: "",
@@ -29,18 +30,52 @@ const defaultMovie: movie = {
     Genre: "",
 };
 
-export default function MovieDetails({ selectedId , onCloseMovie } : { selectedId:string , onCloseMovie: () => void}) {
-    const [movie,setMovie] = useState<movie>(defaultMovie)
+type MovieDetailsProps = {
+    selectedId:string,
+    onCloseMovie: () => void,
+    onAddWatched: (movie: tempWatchedDataType) => void,
+    watched: tempWatchedDataType[]
+}
+
+export default function MovieDetails({ selectedId , onCloseMovie , onAddWatched , watched} : MovieDetailsProps) {
+    const [movie,setMovie] = useState<movie>(defaultMovie);
+    const [userRating, setUserRating] = useState<number | null>(null);
+
+
+    console.log('mount :' + userRating)
+
+    const isWatched:boolean = watched.map((movie:tempWatchedDataType) => movie.imdbID).includes(selectedId);
+    const foundMovie = watched.find((movie: tempWatchedDataType) => movie.imdbID === selectedId);
+    console.log('found movie ', foundMovie)
+    const watchedUserRating : number | null = foundMovie ? foundMovie.userRating : null
+    console.log('watchedUserRating ', watchedUserRating)
 
     useEffect(function (){
         async function fetchMovieDetails (){
             const res = await fetch(`http://www.omdbapi.com/?i=${selectedId}&apikey=${KEY}`);
             const data = await res.json();
+
             setMovie(data)
-            console.log(data)
+            setUserRating(null);
+            //console.log('effect selected Id change :' + userRating)
         }
         fetchMovieDetails()
     },[selectedId])
+
+    // useEffect(() => {
+    //     const foundMovie = watched.find((movie: tempWatchedDataType) => movie.imdbID === selectedId);
+    //     setUserRating(foundMovie?.userRating ?? null);
+    // }, [selectedId, userRating , watched]);
+
+
+
+    // console.log('foundMovie:', foundMovie);
+    // console.log('selected ID:', movie.Title , selectedId)
+    //
+    // const watchedUserRating = foundMovie?.userRating ;
+    // console.log('watchedUserRating:', watchedUserRating);
+
+
 
     const {
         Title: title,
@@ -55,6 +90,20 @@ export default function MovieDetails({ selectedId , onCloseMovie } : { selectedI
         Genre: genre,
     } = movie;
 
+    function handleAdd():void {
+        const newWatchedMovie:tempWatchedDataType = {
+            imdbID: selectedId,
+            Title: title,
+            Year: year,
+            Poster: poster,
+            runtime: Number(runtime.split(" ").at(0)),
+            imdbRating: Number(imdbRating),
+            userRating: userRating || 0
+        };
+
+        onAddWatched(newWatchedMovie);
+        onCloseMovie();
+    }
 
     console.log(movie)
     return (
@@ -79,23 +128,28 @@ export default function MovieDetails({ selectedId , onCloseMovie } : { selectedI
                         </div>
                     </header>
 
-                    {/* <p>{avgRating}</p> */}
-
                     <section>
                         <div className="rating">
-
-                                <>
-                                    <StarRating
-                                        maxRating={10}
-                                        size={24}
-                                    />
-
-                                    <button className="btn-add">
-                                        + Add to list
-                                    </button>
-
-                                </>
-
+                            {
+                                isWatched ?
+                                    <p>
+                                        You rated this movie with {watchedUserRating} <span>⭐️</span>
+                                    </p>
+                                    :
+                                    <>
+                                        <StarRating
+                                            maxRating={10}
+                                            size={24}
+                                            onSetRating={setUserRating}
+                                            userRating={userRating}
+                                        />
+                                        { userRating !== null && userRating > 0 &&
+                                            <button className="btn-add" onClick={handleAdd}>
+                                                + Add to list
+                                            </button>
+                                        }
+                                    </>
+                            }
                         </div>
                         <p>
                             <em>{plot}</em>

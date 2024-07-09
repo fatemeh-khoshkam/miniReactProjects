@@ -12,7 +12,7 @@ type tempWatchedDataType = {
     Poster: string,
     runtime: number,
     imdbRating: number,
-    userRating: number,
+    userRating: number | null,
 }
 
 export { tempMovieDataType, tempWatchedDataType };
