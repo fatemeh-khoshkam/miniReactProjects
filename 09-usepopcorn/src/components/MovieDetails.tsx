@@ -40,41 +40,24 @@ type MovieDetailsProps = {
 export default function MovieDetails({ selectedId , onCloseMovie , onAddWatched , watched} : MovieDetailsProps) {
     const [movie,setMovie] = useState<movie>(defaultMovie);
     const [userRating, setUserRating] = useState<number | null>(null);
-
-
-    console.log('mount :' + userRating)
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const isWatched:boolean = watched.map((movie:tempWatchedDataType) => movie.imdbID).includes(selectedId);
     const foundMovie = watched.find((movie: tempWatchedDataType) => movie.imdbID === selectedId);
-    console.log('found movie ', foundMovie)
     const watchedUserRating : number | null = foundMovie ? foundMovie.userRating : null
-    console.log('watchedUserRating ', watchedUserRating)
 
     useEffect(function (){
         async function fetchMovieDetails (){
+            setIsLoading(true)
             const res = await fetch(`http://www.omdbapi.com/?i=${selectedId}&apikey=${KEY}`);
             const data = await res.json();
-
             setMovie(data)
             setUserRating(null);
-            //console.log('effect selected Id change :' + userRating)
+            setIsLoading(false)
+
         }
         fetchMovieDetails()
     },[selectedId])
-
-    // useEffect(() => {
-    //     const foundMovie = watched.find((movie: tempWatchedDataType) => movie.imdbID === selectedId);
-    //     setUserRating(foundMovie?.userRating ?? null);
-    // }, [selectedId, userRating , watched]);
-
-
-
-    // console.log('foundMovie:', foundMovie);
-    // console.log('selected ID:', movie.Title , selectedId)
-    //
-    // const watchedUserRating = foundMovie?.userRating ;
-    // console.log('watchedUserRating:', watchedUserRating);
-
 
 
     const {
@@ -108,7 +91,7 @@ export default function MovieDetails({ selectedId , onCloseMovie , onAddWatched 
     console.log(movie)
     return (
         <div className="details">
-            {movie.Title ?
+            {!isLoading ?
                 (<>
                     <header>
                         <button className="btn-back" onClick={() => onCloseMovie()}>
