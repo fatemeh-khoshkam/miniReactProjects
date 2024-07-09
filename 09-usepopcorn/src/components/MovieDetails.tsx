@@ -89,6 +89,13 @@ export default function MovieDetails({ selectedId , onCloseMovie , onAddWatched 
     useEffect(function (){
         if (!title) return;
         document.title =`Movie | ${title}`;
+
+        return function () {
+            document.title =`usePopCorn`;
+
+            ///Closures
+            //console.log(`Cleanup function for ${title}`)
+        }
     } , [title])
 
 
