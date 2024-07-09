@@ -124,7 +124,7 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
       setError("");
       return;
     }
-
+    handleCloseMovie()
     fetchMovies();
 
     return function (){
