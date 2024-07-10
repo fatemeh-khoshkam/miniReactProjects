@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import  { tempMovieDataType, tempWatchedDataType } from './types';
+import {useState} from "react";
+import {tempMovieDataType, tempWatchedDataType} from './types';
 import Nav from "./components/Nav";
 import MovieList from "./components/MovieList";
 import WatchedMoviesList from './components/WatchedMoviesList'
@@ -7,10 +7,8 @@ import WatchedSummary from "./components/WatchedSummary";
 import Loader from "./components/Loader";
 import MovieDetails from "./components/MovieDetails";
 import Box from "./components/Box";
-import { useMovies } from "./components/useMovies";
-import {useLocalStorage} from "./components/useLocalStorage";
-
-const KEY:string = "6487f592";
+import { useMovies } from "./hooks/useMovies";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 export default function App() {
   const [query, setQuery] = useState<string>('');
@@ -24,15 +22,12 @@ export default function App() {
 }
 
 function Content({query , onSetQuery }: {query: string , onSetQuery: (query: string) => void }) {
-
     const [watchedMovies, setWatchedMovies] = useLocalStorage([], "watchedMovies");
     const { movies , error , isLoading } = useMovies(query,handleCloseMovie)
     const [selectedMovieId, setSelectedMovieId] = useState<string>('');
 
   function handleSelectMovie(id:string):void {
     setSelectedMovieId((selectedId) => (id === selectedId ? '' : id));
-    // const newSelectedId = (id === selectedMovieId ? '' : id);
-    // console.log(newSelectedId); // Log the new selected ID
   }
 
   function handleCloseMovie ():void {
@@ -46,12 +41,6 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
   function handleDeleteWatchedMovie(id:string):void {
     setWatchedMovies(watchedMovies => watchedMovies.filter((movie:tempWatchedDataType) => movie.imdbID !== id))
   }
-
-
-
-
-
-
 
   return (
     <main className="main">
@@ -87,5 +76,6 @@ const ReportError = ({message} : { message:string }) =>{
       </p>
   );
 }
+
 
 

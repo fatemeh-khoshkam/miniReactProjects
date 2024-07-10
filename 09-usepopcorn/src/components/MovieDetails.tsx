@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import Loader from "./Loader";
 import StarRating from "./StarRating";
 import {tempWatchedDataType} from "../types";
+import {useKeys} from "../hooks/useKeys";
 
 const KEY:string = "6487f592";
 
@@ -98,18 +99,7 @@ export default function MovieDetails({ selectedId , onCloseMovie , onAddWatched 
         }
     } , [title])
 
-    useEffect(() => {
-        function close(e: KeyboardEvent){
-            if(e.code === 'Escape'){
-                onCloseMovie();
-            }
-        }
-        document.addEventListener("keydown", close);
-
-        return function (){
-            document.removeEventListener("keydown", close);
-        }
-    }, [onCloseMovie]);
+    useKeys('Escape', onCloseMovie)
 
     console.log(movie)
     return (
