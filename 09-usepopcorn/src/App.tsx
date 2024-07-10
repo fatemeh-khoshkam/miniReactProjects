@@ -70,7 +70,10 @@ export default function App() {
 
 function Content({query , onSetQuery }: {query: string , onSetQuery: (query: string) => void }) {
   const [movies, setMovies] = useState<tempMovieDataType[]>([]);
-  const [watchedMovies, setWatchedMovies] = useState<tempWatchedDataType[]>([]);
+  const [watchedMovies, setWatchedMovies] = useState<tempWatchedDataType[]>(function(){
+    const savedMovies: string | null = localStorage.getItem('watchedMovies');
+    return savedMovies ? JSON.parse(savedMovies) : [];
+  });
   const [error,setError] = useState<string>("");
   const [isLoading,setIsLoading] = useState<boolean>(false);
   const [selectedMovieId, setSelectedMovieId] = useState<string>('');
@@ -79,6 +82,18 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
     setSelectedMovieId((selectedId) => (id === selectedId ? '' : id));
     // const newSelectedId = (id === selectedMovieId ? '' : id);
     // console.log(newSelectedId); // Log the new selected ID
+  }
+
+  const handleCloseMovie = ():void => {
+    setSelectedMovieId("");
+  }
+
+  function handleAddWatched(movie:tempWatchedDataType):void {
+    setWatchedMovies(watchedMovies => [...watchedMovies, movie])
+  }
+
+  function handleDeleteWatchedMovie(id:string):void {
+    setWatchedMovies(watchedMovies => watchedMovies.filter((movie:tempWatchedDataType) => movie.imdbID !== id))
   }
 
   type searchResponse = {
@@ -133,18 +148,9 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
 
   },[query])
 
-  const handleCloseMovie = ():void => {
-    setSelectedMovieId("");
-
-  }
-
-  function handleAddWatched(movie:tempWatchedDataType):void {
-    setWatchedMovies(watchedMovies => [...watchedMovies, movie])
-  }
-
-  function handleDeleteWatchedMovie(id:string):void {
-    setWatchedMovies(watchedMovies => watchedMovies.filter((movie:tempWatchedDataType) => movie.imdbID !== id))
-  }
+  useEffect(() => {
+    localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies));
+  }, [watchedMovies]);
 
   return (
     <main className="main">
