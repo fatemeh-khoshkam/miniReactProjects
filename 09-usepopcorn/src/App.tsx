@@ -8,6 +8,7 @@ import Loader from "./components/Loader";
 import MovieDetails from "./components/MovieDetails";
 import Box from "./components/Box";
 import { useMovies } from "./components/useMovies";
+import {useLocalStorage} from "./components/useLocalStorage";
 
 const KEY:string = "6487f592";
 
@@ -23,12 +24,10 @@ export default function App() {
 }
 
 function Content({query , onSetQuery }: {query: string , onSetQuery: (query: string) => void }) {
-  const [watchedMovies, setWatchedMovies] = useState<tempWatchedDataType[]>(function(){
-    const savedMovies: string | null = localStorage.getItem('watchedMovies');
-    return savedMovies ? JSON.parse(savedMovies) : [];
-  });
-  const { movies , error , isLoading } = useMovies(query,handleCloseMovie)
-  const [selectedMovieId, setSelectedMovieId] = useState<string>('');
+
+    const [watchedMovies, setWatchedMovies] = useLocalStorage([], "watchedMovies");
+    const { movies , error , isLoading } = useMovies(query,handleCloseMovie)
+    const [selectedMovieId, setSelectedMovieId] = useState<string>('');
 
   function handleSelectMovie(id:string):void {
     setSelectedMovieId((selectedId) => (id === selectedId ? '' : id));
@@ -52,9 +51,7 @@ function Content({query , onSetQuery }: {query: string , onSetQuery: (query: str
 
 
 
-  useEffect(() => {
-    localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies));
-  }, [watchedMovies]);
+
 
   return (
     <main className="main">
