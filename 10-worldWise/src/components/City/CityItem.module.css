@@ -21,9 +21,7 @@
 }
 
 .emoji {
-	font-family: Arial, "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-	font-size: 2.6rem;
-	line-height: 1;
+	width: 2.5rem;
 }
 
 .name {
