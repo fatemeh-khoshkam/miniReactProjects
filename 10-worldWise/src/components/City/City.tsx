@@ -52,9 +52,7 @@ function City() {
         >
           Check out {cityName} on Wikipedia &rarr;
         </a>
-        <button onClick={() => setSearchParams({ lat: 13, lng: 321 })}>
-          change
-        </button>
+        <button onClick={() => setSearchParams}>change</button>
       </div>
     </div>
   );
