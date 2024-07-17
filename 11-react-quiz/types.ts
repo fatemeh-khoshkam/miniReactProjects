@@ -8,6 +8,7 @@ type questionData = {
 type initialStateReducer = {
   questions?: questionData[];
   status: "loading" | "ready" | "error" | "active";
+  index: number;
 };
 
 type actionReducer = {

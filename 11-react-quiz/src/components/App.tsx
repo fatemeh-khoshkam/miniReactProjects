@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
-import { initialStateReducer, actionReducer, questionData } from "../types";
+import { initialStateReducer, actionReducer, questionData } from "../../types";
 import Loader from "./Loader";
 import ErrorMessage from "./ErrorMessage";
 import StartScreen from "./StartScreen";
@@ -14,6 +14,7 @@ function App() {
     questions: [],
     // 'loading' , 'error' , 'ready' , 'active'
     status: "loading",
+    index: 0,
   };
 
   function reducer(
@@ -34,7 +35,7 @@ function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   console.log(state);
-  const { questions, status } = state;
+  const { questions, status, index } = state;
 
   useEffect(function () {
     async function fetchQuestions() {
@@ -65,7 +66,9 @@ function App() {
         {status === "ready" && numQuestions && (
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
-        {status === "active" && <Question />}
+        {status === "active" && numQuestions && (
+          <Question question={questions[index]} />
+        )}
       </Main>
     </div>
   );
