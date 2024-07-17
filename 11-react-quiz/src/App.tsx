@@ -5,30 +5,28 @@ import { initialStateReducer, actionReducer, questionData } from "../types";
 import Loader from "./Loader";
 import ErrorMessage from "./ErrorMessage";
 import StartScreen from "./StartScreen";
+import Question from "./Question";
 
 const BASE_URL = "http://localhost:4500";
 
 function App() {
   const initialState: initialStateReducer = {
     questions: [],
-    // 'loading' , 'error'
+    // 'loading' , 'error' , 'ready' , 'active'
     status: "loading",
   };
-
-  enum typeOfAction {
-    "dataRecieved" = "dataRecieved",
-    "dataError" = "dataError",
-  }
 
   function reducer(
     state: initialStateReducer,
     action: actionReducer,
   ): initialStateReducer {
     switch (action.type) {
-      case typeOfAction.dataRecieved:
+      case "dataReceived":
         return { ...state, questions: action.payload, status: "ready" };
-      case typeOfAction.dataError:
+      case "dataFailed":
         return { ...state, status: "error" };
+      case "start":
+        return { ...state, status: "active" };
       default:
         throw new Error("Unrecognized action");
     }
@@ -46,17 +44,9 @@ function App() {
 
         console.log(data);
 
-        dispatch({ type: typeOfAction.dataRecieved, payload: data });
+        dispatch({ type: "dataReceived", payload: data });
       } catch (err) {
-        // if (err instanceof TypeError) {
-        //   console.log("🌐 Please check your internet connection.");
-        // } else if (err instanceof Error) {
-        //   console.error(err);
-        // } else {
-        //   console.log("An unknown error occurred.");
-        // }
-
-        dispatch({ type: typeOfAction.dataError });
+        dispatch({ type: "dataFailed" });
       }
     }
 
@@ -67,15 +57,15 @@ function App() {
 
   return (
     <div className="app">
-      {/*<DateCounter />*/}
       <Header />
 
       <Main>
         {status === "loading" && <Loader />}
         {status === "error" && <ErrorMessage />}
         {status === "ready" && numQuestions && (
-          <StartScreen numQuestions={numQuestions} />
+          <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
+        {status === "active" && <Question />}
       </Main>
     </div>
   );

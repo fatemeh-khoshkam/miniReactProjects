@@ -7,12 +7,18 @@ type questionData = {
 
 type initialStateReducer = {
   questions?: questionData[];
-  status: "loading" | "ready" | "error";
+  status: "loading" | "ready" | "error" | "active";
 };
 
 type actionReducer = {
   type: string;
   payload?: questionData[];
 };
+
+// enum typeOfAction {
+//   "dataRecieved" = "dataRecieved",
+//   "dataFailed" = "dataError",
+//   "active" = "active",
+// }
 
 export type { initialStateReducer, actionReducer, questionData };
