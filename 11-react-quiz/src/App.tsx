@@ -1,17 +1,47 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
+import { initialStateReducer, actionReducer, questionData } from "../types";
 
 const BASE_URL = "http://localhost:4000";
 
 function App() {
+  const initialState: initialStateReducer = {
+    questions: [],
+    // 'loading' , 'error'
+    status: "loading",
+  };
+
+  enum typeOfAction {
+    "dataRecieved" = "dataRecieved",
+    "dataError" = "dataError",
+  }
+
+  function reducer(
+    state: initialStateReducer,
+    action: actionReducer,
+  ): initialStateReducer {
+    switch (action.type) {
+      case typeOfAction.dataRecieved:
+        return { ...state, questions: action.payload, status: "ready" };
+      case typeOfAction.dataError:
+        return { ...state, status: "error" };
+      default:
+        throw new Error("Unrecognized action");
+    }
+  }
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   useEffect(function () {
     async function fetchQuestions() {
       try {
         const res: Response = await fetch(`${BASE_URL}/questions`);
-        const data = await res.json();
-        if (data.Response === "False") throw new Error("Movie not found");
+        const data: questionData[] = await res.json();
+
         console.log(data);
+
+        dispatch({ type: typeOfAction.dataRecieved, payload: data });
       } catch (err) {
         if (err instanceof TypeError) {
           console.log("🌐 Please check your internet connection.");
