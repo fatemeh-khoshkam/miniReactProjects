@@ -2,8 +2,11 @@ import React, { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import { initialStateReducer, actionReducer, questionData } from "../types";
+import Loader from "./Loader";
+import ErrorMessage from "./ErrorMessage";
+import StartScreen from "./StartScreen";
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "http://localhost:4500";
 
 function App() {
   const initialState: initialStateReducer = {
@@ -32,6 +35,8 @@ function App() {
   }
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  console.log(state);
+  const { questions, status } = state;
 
   useEffect(function () {
     async function fetchQuestions() {
@@ -43,18 +48,22 @@ function App() {
 
         dispatch({ type: typeOfAction.dataRecieved, payload: data });
       } catch (err) {
-        if (err instanceof TypeError) {
-          console.log("🌐 Please check your internet connection.");
-        } else if (err instanceof Error) {
-          console.log(err.message);
-        } else {
-          console.log("An unknown error occurred.");
-        }
+        // if (err instanceof TypeError) {
+        //   console.log("🌐 Please check your internet connection.");
+        // } else if (err instanceof Error) {
+        //   console.error(err);
+        // } else {
+        //   console.log("An unknown error occurred.");
+        // }
+
+        dispatch({ type: typeOfAction.dataError });
       }
     }
 
     fetchQuestions();
   }, []);
+
+  const numQuestions = questions?.length;
 
   return (
     <div className="app">
@@ -62,8 +71,11 @@ function App() {
       <Header />
 
       <Main>
-        <p>1 / 15</p>
-        <p>Questions ?</p>
+        {status === "loading" && <Loader />}
+        {status === "error" && <ErrorMessage />}
+        {status === "ready" && numQuestions && (
+          <StartScreen numQuestions={numQuestions} />
+        )}
       </Main>
     </div>
   );
