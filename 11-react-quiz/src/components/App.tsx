@@ -6,6 +6,7 @@ import Loader from "./Loader";
 import ErrorMessage from "./ErrorMessage";
 import StartScreen from "./StartScreen";
 import Question from "./Question";
+import NextButton from "./NextButton";
 
 const BASE_URL = "http://localhost:4500";
 
@@ -38,6 +39,12 @@ function App() {
           ...state,
           answer: action.payload,
           points: correctAnswer ? state.points + question.points : state.points,
+        };
+      case "nextQuestion":
+        return {
+          ...state,
+          index: state.index + 1,
+          answer: null,
         };
       default:
         throw new Error("Unrecognized action");
@@ -78,11 +85,14 @@ function App() {
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
         {status === "active" && numQuestions && (
-          <Question
-            question={questions[index]}
-            dispatch={dispatch}
-            answer={answer}
-          />
+          <>
+            <Question
+              question={questions[index]}
+              dispatch={dispatch}
+              answer={answer}
+            />
+            <NextButton dispatch={dispatch} answer={answer} />
+          </>
         )}
       </Main>
     </div>

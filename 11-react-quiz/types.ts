@@ -17,7 +17,8 @@ type actionReducer =
   | { type: "dataReceived"; payload: questionData[] }
   | { type: "dataFailed" }
   | { type: "start" }
-  | { type: "newAnswer"; payload: number | null };
+  | { type: "newAnswer"; payload: number | null }
+  | { type: "nextQuestion" };
 
 // type actionReducer = {
 //   type: string;
