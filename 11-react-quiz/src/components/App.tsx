@@ -15,6 +15,7 @@ function App() {
     // 'loading' , 'error' , 'ready' , 'active'
     status: "loading",
     index: 0,
+    answer: null,
   };
 
   function reducer(
@@ -28,6 +29,8 @@ function App() {
         return { ...state, status: "error" };
       case "start":
         return { ...state, status: "active" };
+      case "newAnswer":
+        return { ...state, answer: action.payload };
       default:
         throw new Error("Unrecognized action");
     }
@@ -35,7 +38,7 @@ function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   console.log(state);
-  const { questions, status, index } = state;
+  const { questions, status, index, answer } = state;
 
   useEffect(function () {
     async function fetchQuestions() {
@@ -67,7 +70,11 @@ function App() {
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
         {status === "active" && numQuestions && (
-          <Question question={questions[index]} />
+          <Question
+            question={questions[index]}
+            dispatch={dispatch}
+            answer={answer}
+          />
         )}
       </Main>
     </div>

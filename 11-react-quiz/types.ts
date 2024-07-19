@@ -9,12 +9,19 @@ type initialStateReducer = {
   questions?: questionData[];
   status: "loading" | "ready" | "error" | "active";
   index: number;
+  answer: null | number;
 };
 
-type actionReducer = {
-  type: string;
-  payload?: questionData[];
-};
+type actionReducer =
+  | { type: "dataReceived"; payload: questionData[] }
+  | { type: "dataFailed" }
+  | { type: "start" }
+  | { type: "newAnswer"; payload: number | null };
+
+// type actionReducer = {
+//   type: string;
+//   payload?: questionData[];
+// };
 
 // enum typeOfAction {
 //   "dataRecieved" = "dataRecieved",
