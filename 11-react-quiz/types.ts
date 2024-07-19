@@ -10,6 +10,7 @@ type initialStateReducer = {
   status: "loading" | "ready" | "error" | "active";
   index: number;
   answer: null | number;
+  points: number;
 };
 
 type actionReducer =

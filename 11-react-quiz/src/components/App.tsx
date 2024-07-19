@@ -16,6 +16,7 @@ function App() {
     status: "loading",
     index: 0,
     answer: null,
+    points: 0,
   };
 
   function reducer(
@@ -30,7 +31,14 @@ function App() {
       case "start":
         return { ...state, status: "active" };
       case "newAnswer":
-        return { ...state, answer: action.payload };
+        const question = state.questions?.at(state.index);
+        const correctAnswer = action.payload === question?.correctOption;
+        console.log(question);
+        return {
+          ...state,
+          answer: action.payload,
+          points: correctAnswer ? state.points + question.points : state.points,
+        };
       default:
         throw new Error("Unrecognized action");
     }
