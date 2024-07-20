@@ -8,6 +8,7 @@ import StartScreen from "./StartScreen";
 import Question from "./Question";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
+import Finish from "./Finish";
 
 const BASE_URL = "http://localhost:4500";
 
@@ -47,6 +48,11 @@ function App() {
           index: state.index + 1,
           answer: null,
         };
+      case "finish":
+        return {
+          ...state,
+          status: "finished",
+        };
       default:
         throw new Error("Unrecognized action");
     }
@@ -73,8 +79,8 @@ function App() {
     fetchQuestions();
   }, []);
 
-  const numQuestions = questions?.length;
-  const maxPoints = questions?.reduce((pre, question) => {
+  const numQuestions = questions.length;
+  const maxPoints = questions.reduce((pre, question) => {
     return pre + question.points;
   }, 0);
 
@@ -106,6 +112,9 @@ function App() {
 
             <NextButton dispatch={dispatch} answer={answer} />
           </>
+        )}
+        {status === "finished" && (
+          <Finish points={points} maxPoints={maxPoints} />
         )}
       </Main>
     </div>

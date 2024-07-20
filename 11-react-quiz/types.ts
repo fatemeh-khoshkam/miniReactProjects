@@ -6,8 +6,8 @@ type questionData = {
 };
 
 type initialStateReducer = {
-  questions?: questionData[];
-  status: "loading" | "ready" | "error" | "active";
+  questions: questionData[];
+  status: "loading" | "ready" | "error" | "active" | "finished";
   index: number;
   answer: null | number;
   points: number;
@@ -18,7 +18,8 @@ type actionReducer =
   | { type: "dataFailed" }
   | { type: "start" }
   | { type: "newAnswer"; payload: number | null }
-  | { type: "nextQuestion" };
+  | { type: "nextQuestion" }
+  | { type: "finish" };
 
 // type actionReducer = {
 //   type: string;
