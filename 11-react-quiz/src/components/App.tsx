@@ -7,6 +7,7 @@ import ErrorMessage from "./ErrorMessage";
 import StartScreen from "./StartScreen";
 import Question from "./Question";
 import NextButton from "./NextButton";
+import Progress from "./Progress";
 
 const BASE_URL = "http://localhost:4500";
 
@@ -53,7 +54,7 @@ function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   console.log(state);
-  const { questions, status, index, answer } = state;
+  const { questions, status, index, answer, points } = state;
 
   useEffect(function () {
     async function fetchQuestions() {
@@ -86,6 +87,12 @@ function App() {
         )}
         {status === "active" && numQuestions && (
           <>
+            <Progress
+              points={points}
+              numQuestions={numQuestions}
+              index={index}
+            />
+
             <Question
               question={questions[index]}
               dispatch={dispatch}
