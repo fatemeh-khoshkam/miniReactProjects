@@ -74,6 +74,9 @@ function App() {
   }, []);
 
   const numQuestions = questions?.length;
+  const maxPoints = questions?.reduce((pre, question) => {
+    return pre + question.points;
+  }, 0);
 
   return (
     <div className="app">
@@ -91,6 +94,8 @@ function App() {
               points={points}
               numQuestions={numQuestions}
               index={index}
+              maxPoints={maxPoints}
+              answer={answer}
             />
 
             <Question
@@ -98,6 +103,7 @@ function App() {
               dispatch={dispatch}
               answer={answer}
             />
+
             <NextButton dispatch={dispatch} answer={answer} />
           </>
         )}
