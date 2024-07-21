@@ -12,6 +12,7 @@ type initialStateReducer = {
   answer: null | number;
   points: number;
   highScore: number;
+  secondsRemaining: number;
 };
 
 type actionReducer =
@@ -21,7 +22,8 @@ type actionReducer =
   | { type: "newAnswer"; payload: number | null }
   | { type: "nextQuestion" }
   | { type: "finish" }
-  | { type: "restart" };
+  | { type: "restart" }
+  | { type: "tick" };
 
 // type actionReducer = {
 //   type: string;

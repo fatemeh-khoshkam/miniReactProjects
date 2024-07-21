@@ -24,6 +24,7 @@ function App() {
     answer: null,
     points: 0,
     highScore: 0,
+    secondsRemaining: 10,
   };
 
   function reducer(
@@ -65,6 +66,12 @@ function App() {
           status: "ready",
           questions: state.questions,
         };
+      case "tick":
+        return {
+          ...state,
+          secondsRemaining: state.secondsRemaining - 1,
+          status: state.secondsRemaining === 0 ? "finished" : state.status,
+        };
 
       default:
         throw new Error("Unrecognized action");
@@ -73,7 +80,15 @@ function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   console.log(state);
-  const { questions, status, index, answer, points, highScore } = state;
+  const {
+    questions,
+    status,
+    index,
+    answer,
+    points,
+    highScore,
+    secondsRemaining,
+  } = state;
 
   useEffect(function () {
     async function fetchQuestions() {
@@ -124,7 +139,7 @@ function App() {
             />
 
             <Footer>
-              <Timer />
+              <Timer secondsRemaining={secondsRemaining} dispatch={dispatch} />
               <NextButton
                 index={index}
                 numQuestions={numQuestions}
