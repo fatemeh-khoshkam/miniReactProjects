@@ -1,7 +1,8 @@
 import React, { useEffect, useReducer } from "react";
+import { initialStateReducer, actionReducer, questionData } from "../../types";
+
 import Header from "./Header";
 import Main from "./Main";
-import { initialStateReducer, actionReducer, questionData } from "../../types";
 import Loader from "./Loader";
 import ErrorMessage from "./ErrorMessage";
 import StartScreen from "./StartScreen";
@@ -9,6 +10,8 @@ import Question from "./Question";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
 import Finish from "./Finish";
+import Footer from "./Footer";
+import Timer from "./Timer";
 
 const BASE_URL = "http://localhost:4500";
 
@@ -120,12 +123,15 @@ function App() {
               answer={answer}
             />
 
-            <NextButton
-              index={index}
-              numQuestions={numQuestions}
-              dispatch={dispatch}
-              answer={answer}
-            />
+            <Footer>
+              <Timer />
+              <NextButton
+                index={index}
+                numQuestions={numQuestions}
+                dispatch={dispatch}
+                answer={answer}
+              />
+            </Footer>
           </>
         )}
         {status === "finished" && (
