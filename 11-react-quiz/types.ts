@@ -11,6 +11,7 @@ type initialStateReducer = {
   index: number;
   answer: null | number;
   points: number;
+  highScore: number;
 };
 
 type actionReducer =

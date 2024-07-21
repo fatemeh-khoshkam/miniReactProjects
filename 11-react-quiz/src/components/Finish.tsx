@@ -2,9 +2,10 @@
 type finishPropsType = {
   points: number;
   maxPoints: number;
+  highScore: number;
 };
 
-function Finish({ points, maxPoints }: finishPropsType) {
+function Finish({ points, maxPoints, highScore }: finishPropsType) {
   const percentage: number = Math.ceil((points / maxPoints) * 100);
 
   let emoji;
@@ -15,10 +16,13 @@ function Finish({ points, maxPoints }: finishPropsType) {
   if (percentage === 0) emoji = "🤦‍♂️";
 
   return (
-    <p className="result">
-      <span>{emoji}</span>
-      You scored <strong>{points}</strong> out of {maxPoints} ({percentage}%)
-    </p>
+    <>
+      <p className="result">
+        <span>{emoji}</span>
+        You scored <strong>{points}</strong> out of {maxPoints} ({percentage}%)
+      </p>
+      <p className="highscore">(High Score : {highScore} points)</p>
+    </>
   );
 }
 

@@ -20,6 +20,7 @@ function App() {
     index: 0,
     answer: null,
     points: 0,
+    highScore: 0,
   };
 
   function reducer(
@@ -52,6 +53,8 @@ function App() {
         return {
           ...state,
           status: "finished",
+          highScore:
+            state.points > state.highScore ? state.points : state.highScore,
         };
       default:
         throw new Error("Unrecognized action");
@@ -60,7 +63,7 @@ function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   console.log(state);
-  const { questions, status, index, answer, points } = state;
+  const { questions, status, index, answer, points, highScore } = state;
 
   useEffect(function () {
     async function fetchQuestions() {
@@ -119,7 +122,7 @@ function App() {
           </>
         )}
         {status === "finished" && (
-          <Finish points={points} maxPoints={maxPoints} />
+          <Finish points={points} highScore={highScore} maxPoints={maxPoints} />
         )}
       </Main>
     </div>
