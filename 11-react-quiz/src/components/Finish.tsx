@@ -1,11 +1,13 @@
-//import React from 'react';
+import React from "react";
+
 type finishPropsType = {
   points: number;
   maxPoints: number;
   highScore: number;
+  dispatch: React.Dispatch<any>;
 };
 
-function Finish({ points, maxPoints, highScore }: finishPropsType) {
+function Finish({ points, maxPoints, highScore, dispatch }: finishPropsType) {
   const percentage: number = Math.ceil((points / maxPoints) * 100);
 
   let emoji;
@@ -22,6 +24,12 @@ function Finish({ points, maxPoints, highScore }: finishPropsType) {
         You scored <strong>{points}</strong> out of {maxPoints} ({percentage}%)
       </p>
       <p className="highscore">(High Score : {highScore} points)</p>
+      <button
+        onClick={() => dispatch({ type: "restart" })}
+        className="btn btn-ui"
+      >
+        Restart Quiz
+      </button>
     </>
   );
 }

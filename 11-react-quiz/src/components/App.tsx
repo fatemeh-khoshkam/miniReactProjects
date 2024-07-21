@@ -56,6 +56,13 @@ function App() {
           highScore:
             state.points > state.highScore ? state.points : state.highScore,
         };
+      case "restart":
+        return {
+          ...initialState,
+          status: "ready",
+          questions: state.questions,
+        };
+
       default:
         throw new Error("Unrecognized action");
     }
@@ -122,7 +129,12 @@ function App() {
           </>
         )}
         {status === "finished" && (
-          <Finish points={points} highScore={highScore} maxPoints={maxPoints} />
+          <Finish
+            points={points}
+            highScore={highScore}
+            maxPoints={maxPoints}
+            dispatch={dispatch}
+          />
         )}
       </Main>
     </div>

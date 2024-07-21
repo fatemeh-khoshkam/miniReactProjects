@@ -20,7 +20,8 @@ type actionReducer =
   | { type: "start" }
   | { type: "newAnswer"; payload: number | null }
   | { type: "nextQuestion" }
-  | { type: "finish" };
+  | { type: "finish" }
+  | { type: "restart" };
 
 // type actionReducer = {
 //   type: string;
