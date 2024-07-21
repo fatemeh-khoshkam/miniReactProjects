@@ -14,6 +14,7 @@ import Footer from "./Footer";
 import Timer from "./Timer";
 
 const BASE_URL = "http://localhost:4500";
+const SEC_PER_QUESTION: number = 30;
 
 function App() {
   const initialState: initialStateReducer = {
@@ -24,7 +25,7 @@ function App() {
     answer: null,
     points: 0,
     highScore: 0,
-    secondsRemaining: 10,
+    secondsRemaining: 0,
   };
 
   function reducer(
@@ -37,11 +38,14 @@ function App() {
       case "dataFailed":
         return { ...state, status: "error" };
       case "start":
-        return { ...state, status: "active" };
+        return {
+          ...state,
+          status: "active",
+          secondsRemaining: state.questions.length * SEC_PER_QUESTION,
+        };
       case "newAnswer":
         const question = state.questions?.at(state.index);
         const correctAnswer = action.payload === question?.correctOption;
-        console.log(question);
         return {
           ...state,
           answer: action.payload,

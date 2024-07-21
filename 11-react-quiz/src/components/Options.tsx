@@ -1,12 +1,12 @@
 //import React from 'react';
 
-import { questionData } from "../../types";
+import { actionReducer, questionData } from "../../types";
 import React from "react";
 
 type optionProps = {
   question: questionData;
   answer: number | null;
-  dispatch: React.Dispatch<any>;
+  dispatch: React.Dispatch<actionReducer>;
 };
 
 function Options({ question, answer, dispatch }: optionProps) {

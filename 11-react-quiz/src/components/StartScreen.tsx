@@ -1,9 +1,9 @@
 import React from "react";
-//import { typeOfAction } from "../types";
+import { actionReducer } from "../../types";
 
 type startScreenProps = {
   numQuestions: number;
-  dispatch: React.Dispatch<any>;
+  dispatch: React.Dispatch<actionReducer>;
 };
 
 function StartScreen({ numQuestions, dispatch }: startScreenProps) {

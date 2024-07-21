@@ -1,10 +1,11 @@
 import React from "react";
+import { actionReducer } from "../../types";
 
 type finishPropsType = {
   points: number;
   maxPoints: number;
   highScore: number;
-  dispatch: React.Dispatch<any>;
+  dispatch: React.Dispatch<actionReducer>;
 };
 
 function Finish({ points, maxPoints, highScore, dispatch }: finishPropsType) {

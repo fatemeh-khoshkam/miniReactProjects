@@ -1,7 +1,8 @@
 import React from "react";
+import { actionReducer } from "../../types";
 
 type nextButtonProps = {
-  dispatch: React.Dispatch<any>;
+  dispatch: React.Dispatch<actionReducer>;
   answer: number | null;
   numQuestions: number;
   index: number;
