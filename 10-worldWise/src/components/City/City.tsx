@@ -1,17 +1,15 @@
 import styles from "./City.module.css";
 import { useParams } from "react-router-dom";
 import { useCities } from "../../contexts/CitiesContext";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import convertCountryCodeToString from "../../utils/convertCountryCodeToString";
 import formatDate from "../../utils/formatDate";
 import Spinner from "../../components/Spinner";
-import Button from "../Button";
-import { useNavigate } from "react-router-dom";
+import BackButton from "../BackButton";
 
 function City() {
   const { id } = useParams();
   const { isLoading, currentCity, getCity } = useCities();
-  const navigate = useNavigate();
 
   useEffect(
     function () {
@@ -63,15 +61,7 @@ function City() {
           Check out {cityName} on Wikipedia &rarr;
         </a>
         <div>
-          <Button
-            type="back"
-            onClick={(e: React.FormEvent<HTMLButtonElement>) => {
-              e.preventDefault();
-              navigate(-1);
-            }}
-          >
-            &larr; Back
-          </Button>
+          <BackButton></BackButton>
         </div>
       </div>
     </div>
