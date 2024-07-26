@@ -1,17 +1,15 @@
 //import React from 'react';
 import styles from "./CountryList.module.css";
-import countryDataType from "../../types/countryDataType.ts";
-import cityDataType from "../../types/cityDataType.ts";
-import Spinner from "../Spinner.tsx";
-import Message from "../Message.tsx";
-import CountryItem from "./CountryItem.tsx";
+import countryDataType from "../../types/countryDataType";
+import cityDataType from "../../types/cityDataType";
+import Spinner from "../Spinner";
+import Message from "../Message";
+import CountryItem from "./CountryItem";
+import { useCities } from "../../contexts/CitiesContext";
 
-type countryListProps = {
-  cities: cityDataType[];
-  isLoading: boolean;
-};
+function CountryList() {
+  const { cities, isLoading } = useCities();
 
-function CountryList({ cities, isLoading }: countryListProps) {
   if (isLoading) return <Spinner></Spinner>;
 
   if (!cities.length)

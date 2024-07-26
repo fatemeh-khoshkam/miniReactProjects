@@ -1,8 +1,8 @@
 //import React from 'react';
-import cityDataType from "../../types/cityDataType.ts";
+import cityDataType from "../../types/cityDataType";
 import styles from "./CityItem.module.css";
-import formatDate from "../../utils/formatDate.ts";
-import convertCountryCodeToString from "../../utils/convertCountryCodeToString.ts";
+import formatDate from "../../utils/formatDate";
+import convertCountryCodeToString from "../../utils/convertCountryCodeToString";
 import { Link } from "react-router-dom";
 
 type CityProps = {

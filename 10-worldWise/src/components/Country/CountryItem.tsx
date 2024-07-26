@@ -1,6 +1,6 @@
 //import React from 'react';
-import countryDataType from "../../types/countryDataType.ts";
-import convertCountryCodeToString from "../../utils/convertCountryCodeToString.ts";
+import countryDataType from "../../types/countryDataType";
+import convertCountryCodeToString from "../../utils/convertCountryCodeToString";
 import styles from "./CountryItem.module.css";
 
 type CountryItemProps = {

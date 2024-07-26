@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Form.module.css";
-import Button from "./Button.tsx";
+import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 
 function Form() {

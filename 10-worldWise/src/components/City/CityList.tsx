@@ -1,16 +1,14 @@
 //import React from 'react';
 import styles from "./CityList.module.css";
-import cityDataType from "../../types/cityDataType.ts";
+import cityDataType from "../../types/cityDataType";
 import CityItem from "./CityItem";
-import Spinner from "../Spinner.tsx";
-import Message from "../Message.tsx";
+import Spinner from "../Spinner";
+import Message from "../Message";
+import { useCities } from "../../contexts/CitiesContext";
 
-type CityListProps = {
-  cities: cityDataType[];
-  isLoading: boolean;
-};
+function CityList() {
+  const { cities, isLoading } = useCities();
 
-function CityList({ cities, isLoading }: CityListProps) {
   if (isLoading) return <Spinner></Spinner>;
 
   if (!cities.length)
