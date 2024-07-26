@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function Form() {
   const [cityName, setCityName] = useState<string>("");
-  const [date, setDate] = useState<Date>(new Date());
+  // const [date, setDate] = useState<Date>(new Date());
   const [notes, setNotes] = useState<string>("");
 
   const navigate = useNavigate();
@@ -22,14 +22,14 @@ function Form() {
         {/* <span className={styles.flag}>{emoji}</span> */}
       </div>
 
-      <div className={styles.row}>
-        <label htmlFor="date">When did you go to {cityName}?</label>
-        <input
-          id="date"
-          onChange={(e) => setDate(e.target.value)}
-          value={date}
-        />
-      </div>
+      {/*<div className={styles.row}>*/}
+      {/*  <label htmlFor="date">When did you go to {cityName}?</label>*/}
+      {/*  <input*/}
+      {/*    id="date"*/}
+      {/*    onChange={(e) => setDate(e.target.value)}*/}
+      {/*    value={date}*/}
+      {/*  />*/}
+      {/*</div>*/}
 
       <div className={styles.row}>
         <label htmlFor="notes">Notes about your trip to {cityName}</label>

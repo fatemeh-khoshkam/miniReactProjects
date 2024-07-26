@@ -1,39 +1,49 @@
 import styles from "./City.module.css";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useCities } from "../../contexts/CitiesContext";
+import React, { useEffect } from "react";
+import convertCountryCodeToString from "../../utils/convertCountryCodeToString";
+import formatDate from "../../utils/formatDate";
+import Spinner from "../../components/Spinner";
+import Button from "../Button";
+import { useNavigate } from "react-router-dom";
 
 function City() {
-  const x = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { id } = useParams();
+  const { isLoading, currentCity, getCity } = useCities();
+  const navigate = useNavigate();
 
-  const lat = searchParams.get("lat");
-  const lng = searchParams.get("lng");
-
-  console.log(lat);
-  console.log(lng);
-  console.log(x);
-
-  // TEMP DATA
-  const currentCity = {
-    cityName: "Lisbon",
-    emoji: "🇵🇹",
-    date: "2027-10-31T15:59:59.138Z",
-    notes: "My favorite city so far!",
-  };
+  useEffect(
+    function () {
+      const idConvert = Number(id);
+      getCity(idConvert);
+    },
+    [id],
+  );
+  if (isLoading) return <Spinner></Spinner>;
+  if (!currentCity) return <div>No city data available.</div>;
 
   const { cityName, emoji, date, notes } = currentCity;
+
+  const countryFlag = convertCountryCodeToString(emoji);
 
   return (
     <div className={styles.city}>
       <div className={styles.row}>
         <h6>City name</h6>
         <h3>
-          <span>{emoji}</span> {cityName}
+          <img
+            className={styles.emoji}
+            alt={emoji}
+            src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${countryFlag}.svg`}
+          />
+          {cityName}
         </h3>
       </div>
 
       <div className={styles.row}>
         <h6>You went to {cityName} on</h6>
-        <p>{date}</p>
+        <p>{formatDate(date)}</p>
       </div>
 
       {notes && (
@@ -52,7 +62,17 @@ function City() {
         >
           Check out {cityName} on Wikipedia &rarr;
         </a>
-        <button onClick={() => setSearchParams}>change</button>
+        <div>
+          <Button
+            type="back"
+            onClick={(e: React.FormEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+              navigate(-1);
+            }}
+          >
+            &larr; Back
+          </Button>
+        </div>
       </div>
     </div>
   );

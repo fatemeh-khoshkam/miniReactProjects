@@ -11,6 +11,10 @@
 	gap: 2rem;
 }
 
+.emoji {
+	width: 2.5rem;
+}
+
 .row {
 	display: flex;
 	flex-direction: column;

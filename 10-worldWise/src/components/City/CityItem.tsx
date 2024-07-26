@@ -4,6 +4,8 @@ import styles from "./CityItem.module.css";
 import formatDate from "../../utils/formatDate";
 import convertCountryCodeToString from "../../utils/convertCountryCodeToString";
 import { Link } from "react-router-dom";
+import { useCities } from "../../contexts/CitiesContext";
+import Button from "../Button";
 
 type CityProps = {
   city: cityDataType;
@@ -11,14 +13,16 @@ type CityProps = {
 
 function CityItem({ city }: CityProps) {
   const { cityName, date, emoji, id, position } = city;
-  console.log(city);
+  const { currentCity } = useCities();
   const countryFlag = convertCountryCodeToString(emoji);
-  console.log(position);
+
+  // if (!currentCity) return <div>No city data available.</div>;
+
   return (
     <li>
       <Link
         to={`${id}?lat=${position.lat}&lng=${position.lng}`}
-        className={styles.cityItem}
+        className={`${styles.cityItem} ${id === currentCity?.id ? styles["cityItem--active"] : ""}`}
       >
         <img
           className={styles.emoji}
@@ -27,7 +31,7 @@ function CityItem({ city }: CityProps) {
         />
         <h3 className={styles.name}>{cityName}</h3>
         <time className={styles.date}>({formatDate(date)})</time>
-        <button className={styles.deleteBtn}>&times;</button>
+        <Button type="deleteBtn">&times;</Button>
       </Link>
     </li>
   );
