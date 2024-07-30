@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import React from "react";
 import cityDataType from "../types/cityDataType";
 
-const BASE_URL = "http://localhost:9800";
+const BASE_URL = "http://localhost:9000";
 
 type CitiesContextType = {
   isLoading: boolean;

@@ -1,22 +1,33 @@
 import styles from "./Map.module.css";
-import { useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { LatLngExpression } from "leaflet";
 import { useCities } from "../contexts/CitiesContext";
 import convertCountryCodeToString from "../utils/convertCountryCodeToString";
+import { useSearchParams } from "react-router-dom/dist/index";
 
 function Map() {
   const [mapPosition, setMapPosition] = useState<LatLngExpression>([40, 0]);
   const { cities } = useCities();
+  const [searchParams] = useSearchParams();
+  const mapLat = searchParams.get("lat");
+  const mapLng = searchParams.get("lng");
 
-  console.log(setMapPosition);
+  useEffect(
+    function () {
+      if (mapLat && mapLng) {
+        setMapPosition([parseFloat(mapLat), parseFloat(mapLng)]);
+      }
+    },
+    [mapLat, mapLng, searchParams],
+  );
 
   return (
     <div className={styles.mapContainer}>
       <MapContainer
         className={styles.map}
         center={mapPosition}
-        zoom={13}
+        zoom={8}
         scrollWheelZoom={true}
       >
         <TileLayer
@@ -38,9 +49,17 @@ function Map() {
             </Popup>
           </Marker>
         ))}
+
+        <ChangeCenter position={mapPosition}></ChangeCenter>
       </MapContainer>
     </div>
   );
+}
+
+function ChangeCenter({ position }: { position: LatLngExpression }) {
+  const map = useMap();
+  map.setView(position);
+  return null;
 }
 
 export default Map;
