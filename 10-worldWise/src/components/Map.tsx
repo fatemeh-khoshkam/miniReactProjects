@@ -79,7 +79,7 @@ function DetectClick() {
       console.log(e);
       const lat = e.latlng.lat;
       const lng = e.latlng.lng;
-      navigate(`form?lat=${lat}, lat=${lng}`);
+      navigate(`form?lat=${lat}&lng=${lng}`);
     },
   });
 
