@@ -10,9 +10,9 @@ import {
 } from "react-leaflet";
 import { LatLngExpression } from "leaflet";
 import { useCities } from "../contexts/CitiesContext";
-import { useSearchParams } from "react-router-dom/dist/index";
 import { useNavigate } from "react-router-dom";
 import { useGeolocation } from "../hooks/useGeoLocation";
+import { useUrlPosition } from "../hooks/useUrlPosition";
 
 import convertCountryCodeToString from "../utils/convertCountryCodeToString";
 import Button from "./Button";
@@ -28,19 +28,15 @@ function Map() {
     getPosition,
   } = useGeolocation();
 
-  console.log("geoLocationPosition: ", geoLocationPosition);
-
-  const [searchParams] = useSearchParams();
-  const mapLat = searchParams.get("lat");
-  const mapLng = searchParams.get("lng");
+  const [mapLat, mapLng] = useUrlPosition();
 
   useEffect(
     function () {
-      if (mapLat && mapLng) {
-        setMapPosition([parseFloat(mapLat), parseFloat(mapLng)]);
+      if (mapLat !== null && mapLng !== null) {
+        setMapPosition([mapLat, mapLng]);
       }
     },
-    [mapLat, mapLng, searchParams],
+    [mapLat, mapLng],
   );
 
   useEffect(
@@ -102,7 +98,6 @@ function DetectClick() {
 
   useMapEvents({
     click: (e) => {
-      console.log(e);
       const lat = e.latlng.lat;
       const lng = e.latlng.lng;
       navigate(`form?lat=${lat}&lng=${lng}`);

@@ -2,11 +2,17 @@ import { useState } from "react";
 import styles from "./Form.module.css";
 import Button from "./Button";
 import BackButton from "./BackButton";
+import { useUrlPosition } from "../hooks/useUrlPosition";
+
+// import { useCities } from "../contexts/CitiesContext";
 
 function Form() {
   const [cityName, setCityName] = useState<string>("");
   // const [date, setDate] = useState<Date>(new Date());
   const [notes, setNotes] = useState<string>("");
+  const [lat, lng] = useUrlPosition();
+  console.log("mapLat", lat);
+  console.log("mapLng", lng);
 
   return (
     <form className={styles.form}>
