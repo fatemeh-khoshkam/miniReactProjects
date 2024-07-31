@@ -1,4 +1,5 @@
 function convertCountryCodeToString(flag: string): string {
+  // const flag = convertToEmoji(code);
   // The Unicode code point for the regional indicator symbol 'A'
   const baseCodePoint: number = 0x1f1e6;
 
