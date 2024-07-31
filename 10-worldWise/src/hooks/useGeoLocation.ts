@@ -7,13 +7,13 @@ type Position = {
 
 interface GeolocationHook {
   isLoading: boolean;
-  position: Position;
+  position: Position | null;
   error: string | null;
   getPosition: () => void;
 }
 
 function useGeolocation(
-  defaultPosition: Position = { lat: 0, lng: 0 },
+  defaultPosition: Position | null = null,
 ): GeolocationHook {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [position, setPosition] = useState(defaultPosition);
