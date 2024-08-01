@@ -1,13 +1,71 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import React from "react";
 import cityDataType from "../types/cityDataType";
+import CityDataType from "../types/cityDataType";
 
 const BASE_URL = "http://localhost:9000";
 
-type CitiesContextType = {
+type initialStateType = {
   isLoading: boolean;
   cities: cityDataType[];
   currentCity: cityDataType | null;
+  error?: string;
+};
+
+const initialState: initialStateType = {
+  isLoading: false,
+  cities: [],
+  currentCity: null,
+  error: "",
+};
+
+enum typeOfAction {
+  "loading" = "loading",
+  "loaded" = "cities/loaded",
+  "loadCity" = "city/loaded",
+  "created" = "city/created",
+  "deleted" = "city/deleted",
+  "rejected" = "rejected",
+}
+
+type Action =
+  | { type: typeOfAction.loading }
+  | { type: typeOfAction.loaded; payload: CityDataType[] }
+  | { type: typeOfAction.loadCity; payload: CityDataType }
+  | { type: typeOfAction.created; payload: CityDataType }
+  | { type: typeOfAction.deleted; payload: string }
+  | { type: typeOfAction.rejected; payload: string };
+
+function reducer(state: initialStateType, action: Action): initialStateType {
+  switch (action.type) {
+    case typeOfAction.loading:
+      return { ...state, isLoading: true };
+    case typeOfAction.loaded:
+      return { ...state, isLoading: false, cities: action.payload };
+    case typeOfAction.loadCity:
+      return { ...state, isLoading: false, currentCity: action.payload };
+    case typeOfAction.created:
+      return {
+        ...state,
+        isLoading: false,
+        cities: [...state.cities, action.payload],
+        currentCity: action.payload,
+      };
+    case typeOfAction.deleted:
+      return {
+        ...state,
+        isLoading: false,
+        cities: state.cities.filter((city) => city.id !== action.payload),
+      };
+    case typeOfAction.rejected:
+      return { ...state, isLoading: false, error: action.payload };
+
+    default:
+      throw new Error("Unrecognized action");
+  }
+}
+
+type CitiesContextType = initialStateType & {
   getCity: (id: string) => Promise<void>;
   createCity: (newCity: cityDataType) => Promise<void>;
   deleteCity: (id: string) => Promise<void>;
@@ -16,24 +74,29 @@ type CitiesContextType = {
 const CitesContext = createContext<CitiesContextType | null>(null);
 
 function CitiesProvider({ children }: { children: React.ReactNode }) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [cities, setCities] = useState<cityDataType[]>([]);
-  const [currentCity, setCurrentCity] = useState<cityDataType | null>(null);
+  const [{ cities, isLoading, currentCity }, dispatch] = useReducer(
+    reducer,
+    initialState,
+  );
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [cities, setCities] = useState<cityDataType[]>([]);
+  // const [currentCity, setCurrentCity] = useState<cityDataType | null>(null);
 
   useEffect(function () {
     async function fetchCities() {
+      dispatch({ type: typeOfAction.loading });
       try {
-        setIsLoading(true);
-
         const res: Response = await fetch(`${BASE_URL}/cities`);
-
         const data: cityDataType[] = await res.json();
-        console.log(data);
-        setCities(data);
+        //console.log(data);
+
+        dispatch({ type: typeOfAction.loaded, payload: data });
+        //setCities(data);
       } catch {
-        console.error("Failed to fetch cities.");
-      } finally {
-        setIsLoading(false);
+        dispatch({
+          type: typeOfAction.rejected,
+          payload: "Failed to fetch cities...",
+        });
       }
     }
 
@@ -41,20 +104,27 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   async function getCity(id: string) {
+    console.log(id, currentCity?.id);
+    if (id === currentCity?.id) return;
+
+    dispatch({ type: typeOfAction.loading });
     try {
-      setIsLoading(true);
       const res: Response = await fetch(`${BASE_URL}/cities/${id}`);
       const data: cityDataType = await res.json();
-      console.log(data);
-      setCurrentCity(data);
+      //console.log(data);
+
+      dispatch({ type: typeOfAction.loadCity, payload: data });
+      //setCurrentCity(data);
     } catch {
-      console.error("Failed to fetch city.");
-    } finally {
-      setIsLoading(false);
+      dispatch({
+        type: typeOfAction.rejected,
+        payload: "Failed to fetch city....",
+      });
     }
   }
 
   async function createCity(newCity: cityDataType) {
+    dispatch({ type: typeOfAction.loading });
     try {
       const res: Response = await fetch(`${BASE_URL}/cities`, {
         method: "POST",
@@ -69,28 +139,30 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
       }
 
       const data: cityDataType = await res.json();
-      console.log("New city data:", data);
-
-      setCities((prevCities) => [...prevCities, data]);
-      console.log("Updated cities:", cities);
+      dispatch({ type: typeOfAction.created, payload: data });
+      //setCities((prevCities) => [...prevCities, data]);/
     } catch (err) {
-      console.error("There was an error on creating city: ", err);
+      dispatch({
+        type: typeOfAction.rejected,
+        payload: "There was an error on creating city: ",
+      });
     }
   }
 
   async function deleteCity(id: string) {
+    dispatch({ type: typeOfAction.loading });
     try {
-      setIsLoading(true);
       await fetch(`${BASE_URL}/cities/${id}`, {
         method: "DELETE",
       });
 
-      setCities((cities) => cities.filter((city) => city.id !== id));
-      console.log("Updated cities WITHOUT CITY DELETED:", cities);
+      dispatch({ type: typeOfAction.deleted, payload: id });
+      //setCities((cities) => cities.filter((city) => city.id !== id));
     } catch (err) {
-      console.error("There was an error on deleting city: ", err);
-    } finally {
-      setIsLoading(false);
+      dispatch({
+        type: typeOfAction.rejected,
+        payload: "There was an error on deleting city: ",
+      });
     }
   }
 
@@ -115,7 +187,7 @@ function useCities() {
   if (context === undefined || context === null) {
     throw new Error("useCities must be used within a CitiesProvider");
   }
-  console.log(context);
+  //console.log(context);
   return context;
 }
 

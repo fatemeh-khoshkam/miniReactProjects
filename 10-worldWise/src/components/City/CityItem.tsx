@@ -23,7 +23,7 @@ function CityItem({ city }: CityProps) {
     e.preventDefault();
     if (!id) return;
     deleteCity(id);
-    console.log("deleteHandler", e.target);
+    //console.log("deleteHandler", e.target);
   }
 
   return (
