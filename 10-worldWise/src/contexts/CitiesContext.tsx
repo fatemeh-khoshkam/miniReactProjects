@@ -10,6 +10,7 @@ type CitiesContextType = {
   currentCity: cityDataType | null;
   getCity: (id: string) => Promise<void>;
   createCity: (newCity: cityDataType) => Promise<void>;
+  deleteCity: (id: string) => Promise<void>;
 };
 
 const CitesContext = createContext<CitiesContextType | null>(null);
@@ -73,7 +74,23 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
       setCities((prevCities) => [...prevCities, data]);
       console.log("Updated cities:", cities);
     } catch (err) {
-      console.error("Failed to create city:", err);
+      console.error("There was an error on creating city: ", err);
+    }
+  }
+
+  async function deleteCity(id: string) {
+    try {
+      setIsLoading(true);
+      await fetch(`${BASE_URL}/cities/${id}`, {
+        method: "DELETE",
+      });
+
+      setCities((cities) => cities.filter((city) => city.id !== id));
+      console.log("Updated cities WITHOUT CITY DELETED:", cities);
+    } catch (err) {
+      console.error("There was an error on deleting city: ", err);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -85,6 +102,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
         currentCity,
         getCity,
         createCity,
+        deleteCity,
       }}
     >
       {children}

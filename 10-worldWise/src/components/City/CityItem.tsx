@@ -6,6 +6,7 @@ import convertCountryCodeToString from "../../utils/convertCountryCodeToString";
 import { Link } from "react-router-dom";
 import { useCities } from "../../contexts/CitiesContext";
 import Button from "../Button";
+import React from "react";
 
 type CityProps = {
   city: cityDataType;
@@ -13,10 +14,17 @@ type CityProps = {
 
 function CityItem({ city }: CityProps) {
   const { cityName, date, emoji, id, position } = city;
-  const { currentCity } = useCities();
+  const { currentCity, deleteCity } = useCities();
   const countryFlag = convertCountryCodeToString(emoji);
 
   // if (!currentCity) return <div>No city data available.</div>;
+
+  function deleteHandler(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    if (!id) return;
+    deleteCity(id);
+    console.log("deleteHandler", e.target);
+  }
 
   return (
     <li>
@@ -31,7 +39,9 @@ function CityItem({ city }: CityProps) {
         />
         <h3 className={styles.name}>{cityName}</h3>
         <time className={styles.date}>({formatDate(date)})</time>
-        <Button type="deleteBtn">&times;</Button>
+        <Button type="deleteBtn" onClick={deleteHandler}>
+          &times;
+        </Button>
       </Link>
     </li>
   );
