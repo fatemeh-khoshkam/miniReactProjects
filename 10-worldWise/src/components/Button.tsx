@@ -4,12 +4,22 @@ import styles from "./Button.module.css";
 type ButtonProps = {
   children: React.ReactNode;
   type: string;
-  onClick?: (e: React.FormEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  buttonType?: "button" | "submit" | "reset";
 };
 
-function Button({ children, type, onClick }: ButtonProps) {
+function Button({
+  children,
+  type,
+  onClick,
+  buttonType = "button",
+}: ButtonProps) {
   return (
-    <button onClick={onClick} className={`${styles.btn} ${styles[type]}`}>
+    <button
+      onClick={onClick}
+      type={buttonType}
+      className={`${styles.btn} ${styles[type]}`}
+    >
       {children}
     </button>
   );

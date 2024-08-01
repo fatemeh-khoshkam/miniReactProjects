@@ -2,13 +2,13 @@ type cityDataType = {
   cityName: string;
   country: string;
   emoji: string;
-  date: string;
+  date: Date;
   notes: string;
   position: {
-    lat: number;
-    lng: number;
+    lat: number | null;
+    lng: number | null;
   };
-  id: number;
+  id?: string;
 };
 
 export default cityDataType;

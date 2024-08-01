@@ -13,8 +13,10 @@ function City() {
 
   useEffect(
     function () {
-      const idConvert = Number(id);
-      getCity(idConvert);
+      if (!id) return;
+
+      //const idConvert = Number(id);
+      getCity(id);
     },
     [id],
   );

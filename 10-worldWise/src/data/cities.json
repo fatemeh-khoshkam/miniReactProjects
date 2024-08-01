@@ -10,7 +10,7 @@
         "lat": 38.727881642324164,
         "lng": -9.140900099907554
       },
-      "id": 73930385
+      "id": "73930385"
     },
     {
       "cityName": "Madrid",
@@ -22,7 +22,7 @@
         "lat": 40.46635901755316,
         "lng": -3.7133789062500004
       },
-      "id": 17806751
+      "id": "17806751"
     },
     {
       "cityName": "Berlin",
@@ -34,7 +34,7 @@
         "lat": 52.53586782505711,
         "lng": 13.376933665713324
       },
-      "id": 98443197
+      "id": "98443197"
     },
     {
       "cityName": "Nijar",
@@ -46,7 +46,79 @@
         "lat": "36.967508314568164",
         "lng": "-2.13128394200588"
       },
-      "id": 98443198
+      "id": "98443198"
+    },
+    {
+      "id": "d562",
+      "cityName": "Amsterdam",
+      "country": "Netherlands (Kingdom of the)",
+      "emoji": "🇳🇱",
+      "date": "2024-08-01T12:13:48.813Z",
+      "notes": "test",
+      "position": {
+        "lat": 52.36639159991653,
+        "lng": 4.895060547561539
+      }
+    },
+    {
+      "id": "c7ee",
+      "cityName": "Istanbul",
+      "country": "Turkiye",
+      "emoji": "🇹🇷",
+      "date": "2024-08-01T12:18:18.059Z",
+      "notes": "my home",
+      "position": {
+        "lat": 40.93893602849125,
+        "lng": 29.152481092306132
+      }
+    },
+    {
+      "id": "2f8c",
+      "cityName": "Cambridge",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "🇬🇧",
+      "date": "2024-08-01T12:26:16.229Z",
+      "notes": "testtttt",
+      "position": {
+        "lat": 52.20215028503555,
+        "lng": 0.10783944298818239
+      }
+    },
+    {
+      "id": "2f12",
+      "cityName": "Nenagh",
+      "country": "Ireland",
+      "emoji": "🇮🇪",
+      "date": "2024-08-01T12:26:16.229Z",
+      "notes": "testtttt",
+      "position": {
+        "lat": 52.75231342203593,
+        "lng": -8.35027757686384
+      }
+    },
+    {
+      "id": "4e42",
+      "cityName": "Kristiansand",
+      "country": "Norway",
+      "emoji": "🇳🇴",
+      "date": "2024-08-01T12:30:55.175Z",
+      "notes": "i don't know where is it",
+      "position": {
+        "lat": 58.221987772474485,
+        "lng": 8.133605364568439
+      }
+    },
+    {
+      "id": "f9a7",
+      "cityName": "Simpson",
+      "country": "Australia",
+      "emoji": "🇦🇺",
+      "date": "2024-08-01T13:01:37.337Z",
+      "notes": "wow",
+      "position": {
+        "lat": -24.13806381934722,
+        "lng": 137.1694652866004
+      }
     }
   ]
 }
