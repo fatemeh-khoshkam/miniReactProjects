@@ -49,15 +49,27 @@
       "id": "98443198"
     },
     {
-      "id": "a45a",
+      "id": "7378",
       "cityName": "Istanbul",
       "country": "Turkiye",
       "emoji": "🇹🇷",
-      "date": "2024-08-01T15:28:08.292Z",
-      "notes": "our home🏡 ",
+      "date": "2024-08-02T08:12:35.743Z",
+      "notes": "our home",
       "position": {
-        "lat": 40.971149801908176,
-        "lng": 29.126634064639482
+        "lat": 40.97111473497832,
+        "lng": 29.126654863357547
+      }
+    },
+    {
+      "id": "928f",
+      "cityName": "Istanbul",
+      "country": "Turkiye",
+      "emoji": "🇹🇷",
+      "date": "2024-08-02T08:12:55.006Z",
+      "notes": "sdg",
+      "position": {
+        "lat": 40.97033379160321,
+        "lng": 29.130678176879886
       }
     }
   ]
