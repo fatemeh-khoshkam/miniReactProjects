@@ -31,7 +31,9 @@
     "allowImportingTsExtensions": true
   },
   "include": [
-    "src"
+    "src/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ],
   "references": [
     {
