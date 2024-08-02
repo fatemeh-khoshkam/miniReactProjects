@@ -1,16 +1,17 @@
 import styles from "./User.module.css";
 import { useAuth } from "../contexts/FakeAuthContext";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+
+// import { useEffect } from "react";
 
 function User() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   console.log(user);
 
-  useEffect(() => {
-    if (!user) navigate("/login");
-  }, [navigate, user]);
+  // useEffect(() => {
+  //   if (!user) navigate("/login");
+  // }, [navigate, user]);
 
   function handleClick() {
     logout();
