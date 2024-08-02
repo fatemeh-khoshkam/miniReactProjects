@@ -17,29 +17,44 @@ const FAKE_USER: User = {
 type AuthState = {
   user: User | null;
   isAuthenticated: boolean;
+  loginError: boolean;
 };
 
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
+  loginError: false,
 };
 
-type Action = { type: "login"; payload: User } | { type: "logout" };
+type Action =
+  | { type: "login"; payload: User }
+  | { type: "logout" }
+  | { type: "rejected" };
 
 function reducer(state: AuthState, action: Action) {
   switch (action.type) {
     case "login":
-      return { ...state, isAuthenticated: true, user: action.payload };
+      return {
+        ...state,
+        loginError: false,
+        isAuthenticated: true,
+        user: action.payload,
+      };
     case "logout":
-      return { ...state, isAuthenticated: false, user: null };
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: null,
+        loginError: false,
+      };
+    case "rejected":
+      return { ...state, isAuthenticated: false, loginError: true };
     default:
       throw new Error(`Unknown action type`);
   }
 }
 
-type AuthContext = {
-  isAuthenticated: boolean;
-  user: User | null;
+type AuthContext = AuthState & {
   logout: () => void;
   login: (password: string, email: string) => void;
 };
@@ -47,7 +62,7 @@ type AuthContext = {
 const AuthContext = createContext<AuthContext | null>(null);
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [{ user, isAuthenticated }, dispatch] = useReducer(
+  const [{ user, isAuthenticated, loginError }, dispatch] = useReducer(
     reducer,
     initialState,
   );
@@ -55,7 +70,10 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   function login(email: string, password: string) {
     if (email === FAKE_USER.email && password === FAKE_USER.password) {
       dispatch({ type: "login", payload: FAKE_USER });
-    }
+    } else
+      dispatch({
+        type: "rejected",
+      });
   }
 
   function logout() {
@@ -67,6 +85,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         login,
         logout,
+        loginError,
         user,
         isAuthenticated,
       }}
@@ -81,6 +100,8 @@ function useAuth() {
   if (context === undefined || context === null) {
     throw new Error("AuthContext was used outside AuthProvider");
   }
+
+  return context;
 }
 
 export { AuthProvider, useAuth };
