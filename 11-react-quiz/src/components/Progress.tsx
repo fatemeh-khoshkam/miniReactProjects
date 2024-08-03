@@ -1,20 +1,7 @@
-//import React from 'react';
+import { useQuiz } from "../contexts/QuizContext";
 
-type progressPropsType = {
-  index: number;
-  numQuestions: number;
-  points: number;
-  maxPoints?: number;
-  answer: number | null;
-};
-
-function Progress({
-  index,
-  numQuestions,
-  points,
-  maxPoints,
-  answer,
-}: progressPropsType) {
+function Progress() {
+  const { index, numQuestions, points, maxPoints, answer } = useQuiz();
   // For checking the user to know if answered or not
   // If answered then convert to number, it's 1 and when user clicks the progress bar colored
   const chkAnswer: boolean = answer !== null;

@@ -1,19 +1,8 @@
 import React from "react";
-import { actionReducer } from "../../types";
+import { useQuiz } from "../contexts/QuizContext";
 
-type nextButtonProps = {
-  dispatch: React.Dispatch<actionReducer>;
-  answer: number | null;
-  numQuestions: number;
-  index: number;
-};
-
-function NextButton({
-  dispatch,
-  answer,
-  numQuestions,
-  index,
-}: nextButtonProps) {
+function NextButton() {
+  const { dispatch, answer, numQuestions, index } = useQuiz();
   if (answer === null) return null;
 
   if (index < numQuestions - 1)

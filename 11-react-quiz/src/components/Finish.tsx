@@ -1,14 +1,8 @@
 import React from "react";
-import { actionReducer } from "../../types";
+import { useQuiz } from "../contexts/QuizContext";
 
-type finishPropsType = {
-  points: number;
-  maxPoints: number;
-  highScore: number;
-  dispatch: React.Dispatch<actionReducer>;
-};
-
-function Finish({ points, maxPoints, highScore, dispatch }: finishPropsType) {
+function Finish() {
+  const { points, maxPoints, highScore, dispatch } = useQuiz();
   const percentage: number = Math.ceil((points / maxPoints) * 100);
 
   let emoji;

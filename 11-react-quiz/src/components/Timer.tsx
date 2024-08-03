@@ -1,12 +1,8 @@
 import React, { useEffect } from "react";
-import { actionReducer } from "../../types";
+import { useQuiz } from "../contexts/QuizContext";
 
-type timerPropsType = {
-  secondsRemaining: number;
-  dispatch: React.Dispatch<actionReducer>;
-};
-
-function Timer({ secondsRemaining, dispatch }: timerPropsType) {
+function Timer() {
+  const { secondsRemaining, dispatch } = useQuiz();
   const minutes: number = Math.floor(secondsRemaining / 60);
   const seconds: number = secondsRemaining % 60;
 

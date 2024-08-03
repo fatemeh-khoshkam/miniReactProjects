@@ -1,19 +1,18 @@
-//import React from 'react';
-import { actionReducer, questionData } from "../../types";
 import Options from "./Options";
 import React from "react";
+import { useQuiz } from "../contexts/QuizContext";
 
-type questionProps = {
-  question: questionData;
-  answer: number | null;
-  dispatch: React.Dispatch<actionReducer>;
-};
+function Question() {
+  const { questions, index, answer, dispatch } = useQuiz();
 
-function Question({ question, answer, dispatch }: questionProps) {
   return (
     <div>
-      <h4>{question.question}</h4>
-      <Options question={question} dispatch={dispatch} answer={answer} />
+      <h4>{questions[index].question}</h4>
+      <Options
+        question={questions[index]}
+        dispatch={dispatch}
+        answer={answer}
+      />
     </div>
   );
 }

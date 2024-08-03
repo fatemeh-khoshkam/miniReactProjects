@@ -1,12 +1,9 @@
 import React from "react";
-import { actionReducer } from "../../types";
+import { useQuiz } from "../contexts/QuizContext";
 
-type startScreenProps = {
-  numQuestions: number;
-  dispatch: React.Dispatch<actionReducer>;
-};
+function StartScreen() {
+  const { numQuestions, dispatch } = useQuiz();
 
-function StartScreen({ numQuestions, dispatch }: startScreenProps) {
   return (
     <div className="start">
       <h2>Welcome to The React Quiz!</h2>
