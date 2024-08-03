@@ -18,9 +18,6 @@ const initialState: initialStateReducer = {
   points: 0,
   highScore: 0,
   secondsRemaining: 0,
-  maxPoints: 0,
-  numQuestions: 0,
-  dispatch: (() => {}) as React.Dispatch<actionReducer>,
 };
 
 function reducer(
@@ -77,22 +74,18 @@ function reducer(
   }
 }
 
-//type QuizContext = null | initialStateReducer
+type QuizContextType = initialStateReducer & {
+  dispatch: React.Dispatch<actionReducer>;
+  numQuestions: number;
+  maxPoints: number;
+};
 
-const QuizContext = createContext<null | initialStateReducer>(null);
+const QuizContext = createContext<QuizContextType | null>(null);
 
 function QuizProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   console.log(state);
-  const {
-    questions,
-    status,
-    index,
-    answer,
-    points,
-    highScore,
-    secondsRemaining,
-  } = state;
+  const { questions } = state;
 
   useEffect(function () {
     async function fetchQuestions() {
@@ -116,29 +109,22 @@ function QuizProvider({ children }: { children: ReactNode }) {
     return pre + question.points;
   }, 0);
 
+  const contextValue: QuizContextType = {
+    ...state,
+    numQuestions,
+    maxPoints,
+    dispatch,
+  };
+
   return (
-    <QuizContext.Provider
-      value={{
-        questions,
-        status,
-        index,
-        answer,
-        points,
-        highScore,
-        secondsRemaining,
-        numQuestions,
-        maxPoints,
-        dispatch,
-      }}
-    >
-      {children}
-    </QuizContext.Provider>
+    <QuizContext.Provider value={contextValue}>{children}</QuizContext.Provider>
   );
 }
 
 function useQuiz() {
   const context = useContext(QuizContext);
   if (context === undefined || context === null) {
+    console.log(context);
     throw new Error("QuizContext was used outside QuizProvider");
   }
   return context;

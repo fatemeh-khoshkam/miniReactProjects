@@ -15,9 +15,6 @@ type initialStateReducer = {
   points: number;
   highScore: number;
   secondsRemaining: number;
-  numQuestions: number;
-  maxPoints: number;
-  dispatch: React.Dispatch<actionReducer>;
 };
 
 type actionReducer =
