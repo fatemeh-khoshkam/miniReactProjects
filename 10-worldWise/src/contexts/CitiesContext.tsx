@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 import React from "react";
 import cityDataType from "../types/cityDataType";
 import CityDataType from "../types/cityDataType";
@@ -103,25 +109,28 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
     fetchCities();
   }, []);
 
-  async function getCity(id: string) {
-    console.log(id, currentCity?.id);
-    if (id === currentCity?.id) return;
+  const getCity = useCallback(
+    async function getCity(id: string) {
+      console.log(id, currentCity?.id);
+      if (id === currentCity?.id) return;
 
-    dispatch({ type: typeOfAction.loading });
-    try {
-      const res: Response = await fetch(`${BASE_URL}/cities/${id}`);
-      const data: cityDataType = await res.json();
-      //console.log(data);
+      dispatch({ type: typeOfAction.loading });
+      try {
+        const res: Response = await fetch(`${BASE_URL}/cities/${id}`);
+        const data: cityDataType = await res.json();
+        //console.log(data);
 
-      dispatch({ type: typeOfAction.loadCity, payload: data });
-      //setCurrentCity(data);
-    } catch {
-      dispatch({
-        type: typeOfAction.rejected,
-        payload: "Failed to fetch city....",
-      });
-    }
-  }
+        dispatch({ type: typeOfAction.loadCity, payload: data });
+        //setCurrentCity(data);
+      } catch {
+        dispatch({
+          type: typeOfAction.rejected,
+          payload: "Failed to fetch city....",
+        });
+      }
+    },
+    [currentCity?.id],
+  );
 
   async function createCity(newCity: cityDataType) {
     dispatch({ type: typeOfAction.loading });

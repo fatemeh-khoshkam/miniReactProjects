@@ -71,6 +71,18 @@
         "lat": 40.97033379160321,
         "lng": 29.130678176879886
       }
+    },
+    {
+      "id": "528b",
+      "cityName": "Hampstead Norreys",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "🇬🇧",
+      "date": "2024-08-04T16:27:58.045Z",
+      "notes": "",
+      "position": {
+        "lat": 51.48822432632349,
+        "lng": -1.2799072265625002
+      }
     }
   ]
 }

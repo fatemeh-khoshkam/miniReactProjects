@@ -18,7 +18,7 @@ function City() {
       //const idConvert = Number(id);
       getCity(id);
     },
-    [id],
+    [id, getCity],
   );
   if (isLoading) return <Spinner></Spinner>;
   if (!currentCity) return <div>No city data available.</div>;
