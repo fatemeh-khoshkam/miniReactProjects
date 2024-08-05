@@ -5,6 +5,8 @@ import Customer from "./components/Customer";
 import AccountOperations from "./components/AccountOperations";
 import BalanceDisplay from "./components/BalanceDisplay";
 
+import "./store";
+
 function App() {
   return (
     <div>
