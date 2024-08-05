@@ -12,11 +12,11 @@ function Customer() {
       <div className="inputs">
         <div>
           <label>Customer full name</label>
-          <input value={fullName} />
+          <input />
         </div>
         <div>
           <label>National ID</label>
-          <input value={nationalId} />
+          <input />
         </div>
         <button onClick={handleClick}>Create new customer</button>
       </div>

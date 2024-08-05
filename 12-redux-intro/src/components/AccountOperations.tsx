@@ -21,8 +21,8 @@ function AccountOperations() {
       <div className="inputs">
         <div>
           <label>Deposit</label>
-          <input type="number" value={depositAmount} />
-          <select value={currency}>
+          <input type="number" />
+          <select>
             <option value="USD">US Dollar</option>
             <option value="EUR">Euro</option>
             <option value="GBP">British Pound</option>
@@ -33,7 +33,7 @@ function AccountOperations() {
 
         <div>
           <label>Withdraw</label>
-          <input type="number" value={withdrawalAmount} />
+          <input type="number" />
           <button onClick={handleWithdrawal}>
             Withdraw {withdrawalAmount}
           </button>
@@ -41,8 +41,8 @@ function AccountOperations() {
 
         <div>
           <label>Request loan</label>
-          <input type="number" value={loanAmount} placeholder="Loan amount" />
-          <input value={loanPurpose} placeholder="Loan purpose" />
+          <input type="number" placeholder="Loan amount" />
+          <input placeholder="Loan purpose" />
           <button onClick={handleRequestLoan}>Request loan</button>
         </div>
 
