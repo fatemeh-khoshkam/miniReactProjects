@@ -1,4 +1,4 @@
-type initialStateCostumer = {
+export type initialStateCostumer = {
   fullName: string;
   nationalID: string;
   createdAt: string;

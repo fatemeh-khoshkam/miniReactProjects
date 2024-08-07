@@ -15,6 +15,7 @@
     "react-redux": "^9.1.2",
     "react-scripts": "5.0.1",
     "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -41,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@redux-devtools/extension": "^3.3.0"
   }
 }

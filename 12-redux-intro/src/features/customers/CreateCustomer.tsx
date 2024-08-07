@@ -10,7 +10,10 @@ function Customer() {
   const dispatch = useDispatch<AppDispatch>();
 
   function handleClick() {
-    if (!fullName || !nationalId) return;
+    if (fullName === "" || nationalId === "") {
+      alert(`You have entered a full name and national ID.`);
+      return;
+    }
     dispatch(createCustomer(fullName, nationalId));
   }
 

@@ -1,12 +1,17 @@
-type initialStateAccount = {
+import { Dispatch } from "react";
+import { Action } from "redux";
+
+export type initialStateAccount = {
   balance: number;
   loan: number;
   loanPurpose: string;
+  isLoading: boolean;
 };
 const initialStateAccount: initialStateAccount = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
+  isLoading: false,
 };
 
 type actionReducerAccount =
@@ -27,6 +32,9 @@ type actionReducerAccount =
     }
   | {
       type: "account/payLoan";
+    }
+  | {
+      type: "account/convertingCurrency";
     };
 
 export default function reducerAccount(
@@ -35,7 +43,11 @@ export default function reducerAccount(
 ) {
   switch (action.type) {
     case "account/deposit":
-      return { ...state, balance: state.balance + action.payload };
+      return {
+        ...state,
+        balance: state.balance + action.payload,
+        isLoading: false,
+      };
     case "account/withdraw":
       return { ...state, balance: state.balance - action.payload };
     case "account/requestLoan":
@@ -57,13 +69,29 @@ you should first pay loan.`);
         loanPurpose: "",
         balance: state.balance - state.loan,
       };
+    case "account/convertingCurrency":
+      return {
+        ...state,
+        isLoading: true,
+      };
     default:
       return state;
   }
 }
 
-export function deposit(amount: number): actionReducerAccount {
-  return { type: "account/deposit", payload: amount };
+export function deposit(amount: number, currency: string) {
+  if (currency === "USD") return { type: "account/deposit", payload: amount };
+
+  return async function (dispatch: any): Promise<void> {
+    dispatch({ type: "account/convertingCurrency" });
+    const res = await fetch(
+      `https://api.frankfurter.app/latest?amount=${amount}&from=${currency}&to=USD`,
+    );
+    const data = await res.json();
+    const converted: number = data.rates.USD;
+    console.log(converted);
+    dispatch({ type: "account/deposit", payload: converted });
+  };
 }
 
 export function withdraw(amount: number): actionReducerAccount {
