@@ -1,12 +1,11 @@
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("en", {
-    style: "currency",
-    currency: "USD",
-  }).format(value);
-}
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import formatCurrency from "../../formatCurrency";
 
 function BalanceDisplay() {
-  return <div className="balance">{formatCurrency(123456)}</div>;
+  const balance = useSelector((store: RootState) => store.account.balance);
+  console.log(balance);
+  return <div className="balance">{formatCurrency(balance)}</div>;
 }
 
 export default BalanceDisplay;

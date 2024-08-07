@@ -39,7 +39,11 @@ export default function reducerAccount(
     case "account/withdraw":
       return { ...state, balance: state.balance - action.payload };
     case "account/requestLoan":
-      if (state.loan > 0) return state;
+      if (state.loan > 0) {
+        alert(`You have active loan!
+you should first pay loan.`);
+        return state;
+      }
       return {
         ...state,
         balance: state.balance + action.payload.loan,

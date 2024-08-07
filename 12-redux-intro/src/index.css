@@ -16,6 +16,7 @@ button {
 	font-weight: bold;
 	padding: 6px 8px;
 	cursor: pointer;
+	margin: 2px 6px;
 }
 
 .inputs {
