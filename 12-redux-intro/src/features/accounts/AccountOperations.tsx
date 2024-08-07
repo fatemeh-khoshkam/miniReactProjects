@@ -24,7 +24,7 @@ function AccountOperations() {
       return;
     }
 
-    dispatch(deposit(depositAmount));
+    dispatch(deposit(depositAmount, currency));
     setDepositAmount(null);
     setCurrency("USD");
   }
