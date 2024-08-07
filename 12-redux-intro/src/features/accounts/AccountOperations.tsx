@@ -24,14 +24,14 @@ function AccountOperations() {
       return;
     }
 
-    dispatch(deposit(depositAmount, currency));
+    dispatch(deposit(depositAmount));
     setDepositAmount(null);
     setCurrency("USD");
   }
 
   function handleWithdrawal() {
     if (!withdrawalAmount) {
-      alert("Withdrawal is required");
+      alert("Withdraw is required");
       return;
     }
 
